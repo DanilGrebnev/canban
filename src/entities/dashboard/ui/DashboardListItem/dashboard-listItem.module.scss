@@ -1,0 +1,12 @@
+.table-item {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  height: max-content;
+  align-items: center;
+}
+
+.join-btn {
+  width: max-content;
+  justify-self: end;
+}

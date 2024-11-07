@@ -1,0 +1,9 @@
+.page {
+  padding: var(--gap);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: 1fr;
+  gap: var(--gap);
+  flex-grow: 1;
+  overflow: auto;
+}

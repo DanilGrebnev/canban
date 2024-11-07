@@ -1,0 +1,8 @@
+* {
+    font-family: Roboto, sans-serif;
+    font-weight: normal;
+}
+body, html {
+    min-height: 100vh;
+}
+

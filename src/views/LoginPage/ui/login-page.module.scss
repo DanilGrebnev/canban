@@ -1,0 +1,23 @@
+.card {
+  padding: 20px;
+ display: grid;
+  grid-template-columns: minmax(100px, 1fr);
+  grid-template-rows: repeat(2, auto);
+  gap: var(--gap);
+
+}
+
+.input {
+  width: 300px;
+}
+
+.inputs {
+  display: flex;
+  flex-direction: column;
+  gap:var(--gap);
+}
+
+.actions {
+  display: flex;
+  gap:var(--gap);
+}
