@@ -3,7 +3,7 @@
 import { IconButton } from "@/shared/ui/IconButton"
 import { Menu } from "@/shared/ui/Menu"
 import MenuItem from "@mui/material/MenuItem"
-import { useMemo, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { useMoveTodoToAnotherColumnMutation } from "@/shared/api/todo"
 import { useGetColumnsListQuery } from "@/shared/api/columns"
 
@@ -34,14 +34,15 @@ export const MoveToDoButton = (props: MoveToDoButtonProps) => {
         () => columns?.filter((column) => column._id !== columnId),
         [columns],
     )
-    const showButton = !!(columnsList?.length && columnsList?.length > 1)
+
+    const showButton = !!(columns?.length && columns?.length > 1)
 
     return showButton ? (
         <>
             <IconButton
                 onClick={handleClick}
                 iconVariant='arrow'
-                tooltip='move to next dolumn'
+                tooltip='move to next column'
             />
             <Menu
                 open={open}

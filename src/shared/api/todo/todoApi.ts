@@ -1,5 +1,5 @@
 import { api } from "../api-instance"
-import { TTodoItem } from "@/shared/types/todos"
+import { TodoPriority, TTodoItem } from "@/shared/types/todos"
 
 const todoApi = api.extend(({ prefixUrl }) => ({
     prefixUrl: prefixUrl + "/todos/",
@@ -22,10 +22,15 @@ export const TodoApi = {
         todo: string
         description: string
         columnId: string
+        priority: TodoPriority
     }) => {
-        return todoApi.post("", { json: data, credentials: "include" })
+        return todoApi
+            .post("", { json: data, credentials: "include" })
+            .json<TTodoItem>()
     },
     removeTodo: (todoId: string) => {
-        return todoApi.delete("", { json: { todoId }, credentials: "include" })
+        return todoApi
+            .delete("", { json: { todoId }, credentials: "include" })
+            .json<TTodoItem>()
     },
 }

@@ -4,9 +4,12 @@ export interface TTodoItem {
     description: string
     columnId: string
     creationDate: string
+    priority: TodoPriority
     author: string
     history: TTodoHistory[] | []
 }
+
+export type TodoPriority = "low" | "middle" | "high"
 
 interface TTodoHistory {
     authorName: string

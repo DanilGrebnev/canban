@@ -1,15 +1,16 @@
 "use client"
 
 import s from "@/views/LoginPage/ui/login-page.module.scss"
-import { TextField } from "@mui/material"
+import { Alert, TextField } from "@mui/material"
 import Button from "@mui/material/Button"
 import { routes } from "@/shared/routes"
 import { useLoginMutation } from "@/shared/api/users"
 import type { FormEvent } from "react"
 import { useRouter } from "next/navigation"
+import CheckIcon from "@mui/icons-material/Check"
 
 export const LoginForm = () => {
-    const { mutate } = useLoginMutation({
+    const { mutate, isError } = useLoginMutation({
         onSuccess: () => {
             router.push(routes.dashboardList)
         },
@@ -25,6 +26,7 @@ export const LoginForm = () => {
         }
         mutate(data)
     }
+
     return (
         <form onSubmit={submit}>
             <h3>Войти</h3>
@@ -34,7 +36,6 @@ export const LoginForm = () => {
                     id='filled-basic'
                     label='login'
                     name='login'
-                    value='zloymichka@mail.ru'
                     variant='standard'
                     placeholder='login'
                 />
@@ -43,7 +44,6 @@ export const LoginForm = () => {
                     id='filled-basic'
                     label='password'
                     name='password'
-                    value='htczte2101'
                     placeholder='password'
                     variant='standard'
                 />
@@ -55,6 +55,7 @@ export const LoginForm = () => {
                     </Button>
                 </div>
             </div>
+            {isError && <Alert severity='error'>Ошибка входа.</Alert>}
         </form>
     )
 }

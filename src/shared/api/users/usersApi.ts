@@ -1,5 +1,5 @@
 import { api } from "@/shared/api/api-instance"
-import { IProfile } from "@/shared/types/user"
+import { IProfile, IRegistration } from "@/shared/types/user"
 
 const usersApi = api.extend(({ prefixUrl }) => ({
     prefixUrl: prefixUrl + "/users",
@@ -17,4 +17,21 @@ export const UsersApi = {
 
     profile: () =>
         usersApi.get("profile", { credentials: "include" }).json<IProfile>(),
+
+    registration: (data: IRegistration) =>
+        usersApi
+            .post("registration", { json: data, credentials: "include" })
+            .json(),
+
+    searchUser: (userName: string) => {
+        return usersApi
+            .get("search", { searchParams: { name: userName } })
+            .json<IProfile[]>()
+    },
+
+    joinToDashboard: (data: { dashboardId: string; userId: string }) => {
+        return usersApi
+            .post("join", { json: data, credentials: "include" })
+            .json()
+    },
 }

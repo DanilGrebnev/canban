@@ -3,7 +3,9 @@
 import { useGetColumnsListQuery } from "@/shared/api/columns"
 import { ColumnWithToDo } from "@/widgets/ColumnWithToDo"
 import { useDashboardStore } from "@/shared/store/dashboardStore"
-import { useEffect } from "react"
+import { useEffect, useRef, useState } from "react"
+import s from "./columns-list.module.scss"
+import { cn } from "@/shared/lib/clsx"
 
 interface ColumnListProps {
     dashboardId: string
@@ -11,7 +13,8 @@ interface ColumnListProps {
 
 export const ColumnList = (props: ColumnListProps) => {
     const { dashboardId } = props
-    const setDashboardId = useDashboardStore((state) => state.setDashboardId)
+    const setDashboardId = useDashboardStore((s) => s.setDashboardId)
+    const ref = useRef<HTMLDivElement | null>(null)
 
     useEffect(() => {
         if (!dashboardId) return
@@ -21,7 +24,13 @@ export const ColumnList = (props: ColumnListProps) => {
     const { data } = useGetColumnsListQuery({ dashboardId: props.dashboardId })
 
     return (
-        <>
+        <div
+            ref={ref}
+            className={cn(s.list)}
+            style={{
+                gridTemplateColumns: `repeat(${data?.length}, 1fr)`,
+            }}
+        >
             {data?.map((column) => (
                 <ColumnWithToDo
                     key={column._id}
@@ -30,6 +39,6 @@ export const ColumnList = (props: ColumnListProps) => {
                     title={column.columnName}
                 />
             ))}
-        </>
+        </div>
     )
 }

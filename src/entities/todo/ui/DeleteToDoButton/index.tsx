@@ -2,7 +2,6 @@
 
 import { IconButton } from "@/shared/ui/IconButton"
 import { useState } from "react"
-import MenuItem from "@mui/material/MenuItem"
 import { Menu } from "@/shared/ui/Menu"
 import Button from "@mui/material/Button"
 import { useRemoveTodoMutation } from "@/shared/api/todo/hooks/useRemoveTodoMutation"
@@ -14,6 +13,7 @@ interface DeleteToDoButton {
 export const DeleteToDoButton = ({ todoId }: DeleteToDoButton) => {
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
     const open = Boolean(anchorEl)
+
     const { mutate } = useRemoveTodoMutation()
 
     const handleClick = (event: any) => {

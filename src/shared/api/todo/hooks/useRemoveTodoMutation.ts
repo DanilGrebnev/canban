@@ -7,8 +7,10 @@ export const useRemoveTodoMutation = () => {
 
     return useMutation({
         mutationFn: TodoApi.removeTodo,
-        onSuccess: () => {
-            client.invalidateQueries({ queryKey: [todosApiKey.todoList] })
+        onSuccess: (removedTodo) => {
+            client.invalidateQueries({
+                queryKey: [todosApiKey.todoList, removedTodo.columnId],
+            })
         },
     })
 }

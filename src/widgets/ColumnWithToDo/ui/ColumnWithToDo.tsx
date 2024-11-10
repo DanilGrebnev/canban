@@ -1,13 +1,18 @@
 "use client"
 
 import { Column, TColumn } from "@/entities/columns"
-import { useGetToDoQuery } from "@/shared/api/todo"
+import { useGetToDoQuery, useCreateTodoMutation } from "@/shared/api/todo"
 import { ToDoItem } from "@/entities/todo"
-import { useCreateTodoMutation } from "@/shared/api/todo/hooks/useCreateTodoMutation"
 import { Modal } from "@/shared/ui/Modal"
 import { FormEvent, useState } from "react"
-import { TextField } from "@mui/material"
-import Button from "@mui/material/Button"
+import {
+    TextField,
+    Button,
+    RadioGroup,
+    FormControlLabel,
+    Radio,
+} from "@mui/material"
+import { TodoPriority } from "@/shared/types/todos"
 
 interface ColumnWithToDoProps extends TColumn {
     columnId: string
@@ -18,17 +23,18 @@ export const ColumnWithToDo = (props: ColumnWithToDoProps) => {
     const { columnId, title, dashboardId } = props
     const { data: todos } = useGetToDoQuery({ columnId })
 
-    const { mutate } = useCreateTodoMutation()
+    const { mutate: createTodo } = useCreateTodoMutation()
     const [openModal, setOpenModal] = useState(false)
 
     const onSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        console.log("submit")
         const form = new FormData(e.currentTarget)
-        mutate({
+
+        createTodo({
             columnId,
-            description: form.get("description") as string,
-            todo: form.get("todo") as string,
+            description: (form.get("description") as string).trim(),
+            todo: (form.get("todo") as string).trim(),
+            priority: form.get("priority") as TodoPriority,
         })
     }
 
@@ -58,6 +64,7 @@ export const ColumnWithToDo = (props: ColumnWithToDoProps) => {
                         display: "flex",
                         flexDirection: "column",
                         gap: "var(--gap)",
+                        width: "300px",
                     }}
                 >
                     <TextField
@@ -70,6 +77,30 @@ export const ColumnWithToDo = (props: ColumnWithToDoProps) => {
                         name='description'
                         label='Описание'
                     />
+                    <div>
+                        <h4>Приоритет</h4>
+                        <RadioGroup
+                            aria-labelledby='demo-radio-buttons-group-label'
+                            defaultValue='low'
+                            name='priority'
+                        >
+                            <FormControlLabel
+                                value='low'
+                                control={<Radio />}
+                                label='низкий'
+                            />
+                            <FormControlLabel
+                                value='middle'
+                                control={<Radio />}
+                                label='средний'
+                            />
+                            <FormControlLabel
+                                value='high'
+                                control={<Radio />}
+                                label='высокий'
+                            />
+                        </RadioGroup>
+                    </div>
                     <Button
                         type='submit'
                         onClick={() => {

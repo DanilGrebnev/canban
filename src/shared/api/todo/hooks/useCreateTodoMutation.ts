@@ -7,8 +7,10 @@ export const useCreateTodoMutation = () => {
 
     return useMutation({
         mutationFn: TodoApi.createTodo,
-        onSuccess: () => {
-            client.invalidateQueries({ queryKey: [todosApiKey.todoList] })
+        onSuccess: (createdTodo) => {
+            client.invalidateQueries({
+                queryKey: [todosApiKey.todoList, createdTodo.columnId],
+            })
         },
     })
 }

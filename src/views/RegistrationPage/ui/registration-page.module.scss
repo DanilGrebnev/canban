@@ -1,8 +1,6 @@
 .card {
-  padding: 20px;
- display: grid;
-  grid-template-columns: minmax(100px, 1fr);
-  grid-template-rows: repeat(2, auto);
+  display: flex;
+  flex-direction: column;
   gap: var(--gap);
 }
 
