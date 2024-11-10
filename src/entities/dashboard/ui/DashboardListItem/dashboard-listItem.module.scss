@@ -1,9 +1,15 @@
-.table-item {
+.dashboards-item {
   width: 100%;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   height: max-content;
   align-items: center;
+  cursor: pointer;
+  transition: .3s;
+
+  &:hover {
+    border-color: #4dabf5;
+  }
 }
 
 .join-btn {

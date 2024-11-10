@@ -7,11 +7,13 @@ type CardVariant = Parameters<typeof MUICard>[0]["variant"]
 interface TCard extends TChildren {
     className?: string
     variant?: CardVariant
+    onClick?: () => void
 }
 
-export const Card = ({ children, className, variant }: TCard) => {
+export const Card = ({ children, className, variant, onClick }: TCard) => {
     return (
         <MUICard
+            onClick={onClick}
             variant={variant}
             className={cn(s.card, className)}
         >

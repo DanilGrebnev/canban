@@ -4,6 +4,9 @@ import Tooltip from "@mui/material/Tooltip"
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined"
 import DriveFileRenameOutlineOutlinedIcon from "@mui/icons-material/DriveFileRenameOutlineOutlined"
 import { ReactElement, ReactNode } from "react"
+import AccountCircle from "@mui/icons-material/AccountCircle"
+import AddBoxOutlinedIcon from "@mui/icons-material/AddBoxOutlined"
+import CheckIcon from "@mui/icons-material/Check"
 
 type TMUIIconButton = Parameters<typeof MUIIconButton>[0]
 
@@ -13,6 +16,9 @@ const icons = {
     pencil: DriveFileRenameOutlineOutlinedIcon,
     delete: DeleteOutlinedIcon,
     arrow: TrendingFlatIcon,
+    people: AccountCircle,
+    addBox: AddBoxOutlinedIcon,
+    done: CheckIcon,
 }
 
 type TIconButton = {

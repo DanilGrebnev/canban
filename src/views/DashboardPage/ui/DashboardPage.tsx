@@ -1,34 +1,21 @@
 import s from "./dashboard-page.module.scss"
-import { Column, DashboardTaskItem } from "@/entities/dashboard"
+import { ColumnList } from "@/widgets/ColumnList"
+import { DashboardPageContextProvider } from "../context/provider"
 
-export const DashboardPage = () => {
+interface PageParams {
+    params: Promise<{
+        dashboardId: string
+    }>
+}
+
+export const DashboardPage = async (props: PageParams) => {
+    const dashboardId = (await props.params).dashboardId
+
     return (
         <div className={s.page}>
-            <Column title='В очереди'>
-                <DashboardTaskItem />
-                <DashboardTaskItem />
-                <DashboardTaskItem />
-                <DashboardTaskItem />
-                <DashboardTaskItem />
-                <DashboardTaskItem />
-                <DashboardTaskItem />
-                <DashboardTaskItem />
-                <DashboardTaskItem />
-                <DashboardTaskItem />
-                <DashboardTaskItem />
-                <DashboardTaskItem />
-                <DashboardTaskItem />
-                <DashboardTaskItem />
-                <DashboardTaskItem />
-                <DashboardTaskItem />
-                <DashboardTaskItem />
-                <DashboardTaskItem />
-                <DashboardTaskItem />
-                <DashboardTaskItem />
-                <DashboardTaskItem />
-            </Column>
-            <Column title='Приняты в работу'></Column>
-            <Column title='Завершённые'></Column>
+            <DashboardPageContextProvider dashboardId={dashboardId}>
+                <ColumnList dashboardId={dashboardId} />
+            </DashboardPageContextProvider>
         </div>
     )
 }

@@ -1,11 +1,12 @@
 import { TChildren } from "@/shared/types/Children"
+import { TanStackQueryProvider } from "./TanStackQueryProvider"
 import { MUIProvider } from "@/shared/providers/MUIProvider"
-import { TanStackQueryProvider } from "@/shared/providers/TanStackQueryProvider"
 
 export const CombineProvider = ({ children }: TChildren) => {
     return (
         <TanStackQueryProvider>
             <MUIProvider>{children}</MUIProvider>
+            {/*<ReactQueryDevtools initialIsOpen={false} />*/}
         </TanStackQueryProvider>
     )
 }

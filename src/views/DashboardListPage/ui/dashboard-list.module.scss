@@ -1,11 +1,7 @@
-.table {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-}
-
-
 .list{
- display: flex;
+  display: flex;
+  flex-direction: column;
   padding: var(--gap);
+  gap:var(--gap);
 }
 

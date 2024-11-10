@@ -1,11 +1,13 @@
 import MUIMenu from "@mui/material/Menu"
-import { ReactNode } from "react"
+import { CSSProperties, ReactNode } from "react"
 
 interface TMenu {
     open: boolean
     anchorEl: HTMLElement | null
     handleClose: any
     children?: ReactNode
+    elevation?: number
+    style?: CSSProperties
 }
 
 /*
@@ -47,17 +49,16 @@ interface TMenu {
  *   }
  * */
 export const Menu = (props: TMenu) => {
-    const { open, anchorEl, handleClose, children } = props
+    const { open, anchorEl, handleClose, children, elevation, style } = props
 
     return (
         <MUIMenu
             id='basic-menu'
             anchorEl={anchorEl}
             open={open}
+            style={style}
+            elevation={elevation}
             onClose={handleClose}
-            MenuListProps={{
-                "aria-labelledby": "basic-button",
-            }}
         >
             {children}
         </MUIMenu>

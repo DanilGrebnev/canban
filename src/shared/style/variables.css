@@ -1,3 +1,8 @@
 :root {
     --gap: 20px;
+
+    /* ---fonts--- */
+    --font-100: 12px;
+    --font-150: 14px;
+    --font-200: 16px;
 }
