@@ -5,10 +5,8 @@ import { TextField } from "@mui/material"
 import s from "./s.module.scss"
 import { useDashboardStore } from "@/shared/store/dashboardStore"
 import { useMemo, useState } from "react"
-import { useSearchUserQuery } from "@/shared/api/users/hooks/useSearchUserQuery"
 import { useDebounce } from "use-debounce"
-import { useGetProfileQuery } from "@/shared/api/users/hooks/useGetProfileQuery"
-
+import { useGetProfileQuery, useSearchUserQuery } from "@/shared/api/users"
 import { UserItem } from "./UserItem"
 
 interface JoinUserModal {

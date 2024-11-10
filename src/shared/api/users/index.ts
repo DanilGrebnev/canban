@@ -4,3 +4,4 @@ export { useGetDashboardParticipantsQuery } from "./hooks/useGetDashboardPartici
 export { useGetProfileQuery } from "./hooks/useGetProfileQuery"
 export { useRegistrationMutation } from "./hooks/useRegistrationMutation"
 export { useJoinUserToDashboardMutation } from "./hooks/useJoinUserToDashboardMutation"
+export { useSearchUserQuery } from "./hooks/useSearchUserQuery"
