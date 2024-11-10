@@ -34,4 +34,12 @@ export const UsersApi = {
             .post("join", { json: data, credentials: "include" })
             .json()
     },
+
+    getDashboardParticipants: (dashboardId: string) => {
+        return usersApi
+            .get(`participants/${dashboardId}`, {
+                credentials: "include",
+            })
+            .json<IProfile[]>()
+    },
 }

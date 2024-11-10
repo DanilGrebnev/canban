@@ -1,20 +1,23 @@
+"use client"
+
 import { Modal } from "@/shared/ui/Modal"
-import { Card, TextField } from "@mui/material"
+import { TextField } from "@mui/material"
 import s from "./s.module.scss"
 import { useDashboardStore } from "@/shared/store/dashboardStore"
-import { useEffect, useMemo, useState } from "react"
+import { useMemo, useState } from "react"
 import { useSearchUserQuery } from "@/shared/api/users/hooks/useSearchUserQuery"
 import { useDebounce } from "use-debounce"
-import Button from "@mui/material/Button"
 import { useGetProfileQuery } from "@/shared/api/users/hooks/useGetProfileQuery"
-import { useJoinUserToDashboardMutation } from "@/shared/api/users/hooks/useJoinUserToDashboardMutation"
+
+import { UserItem } from "./UserItem"
 
 interface JoinUserModal {
     open: boolean
     onClose: () => void
 }
 
-export const JoinUserModal = ({ open, onClose }: JoinUserModal) => {
+export const JoinUserModal = (props: JoinUserModal) => {
+    const { open, onClose } = props
     const dashboardId = useDashboardStore((s) => s.dashboardId) || ""
 
     const { data: profile } = useGetProfileQuery()
@@ -23,7 +26,6 @@ export const JoinUserModal = ({ open, onClose }: JoinUserModal) => {
     const [debounceName] = useDebounce(userName, 500)
 
     const { data: fondedUsers } = useSearchUserQuery(debounceName)
-    const { mutate: joinUser, isSuccess } = useJoinUserToDashboardMutation()
 
     const filteredUsers = useMemo(
         () => fondedUsers?.filter((user) => user._id !== profile?._id),
@@ -44,22 +46,19 @@ export const JoinUserModal = ({ open, onClose }: JoinUserModal) => {
                     onChange={(e) => setUserName(e.target.value)}
                 />
                 <div className={s["join-user-list"]}>
-                    {filteredUsers?.map(({ _id, name }) => {
+                    {filteredUsers?.map(({ _id, name, dashboardsList }) => {
+                        const participants = !!dashboardsList.find((d) => {
+                            return d.dashboardId === dashboardId
+                        })
+
                         return (
-                            <Card
-                                elevation={1}
-                                className={s.user}
+                            <UserItem
                                 key={_id}
-                            >
-                                {name}
-                                <Button
-                                    onClick={() => {
-                                        joinUser({ userId: _id, dashboardId })
-                                    }}
-                                >
-                                    Добавить
-                                </Button>
-                            </Card>
+                                dashboardId={dashboardId}
+                                participants={participants}
+                                userId={_id}
+                                userName={name}
+                            />
                         )
                     })}
                 </div>

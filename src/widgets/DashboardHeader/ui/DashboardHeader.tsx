@@ -15,10 +15,14 @@ import { JoinUserModal } from "@/widgets/DashboardHeader/ui/JoinUserModal"
 import { useGetProfileQuery } from "@/shared/api/users/hooks/useGetProfileQuery"
 import { useDashboardStore } from "@/shared/store/dashboardStore"
 import { IProfileDashboardListItem } from "@/shared/types/user"
+import RecentActorsOutlinedIcon from "@mui/icons-material/RecentActorsOutlined"
+import { ParticipantsModal } from "@/widgets/DashboardHeader/ui/ParticipantsModal"
 
 export const DashboardHeader = () => {
     const [openModal, setOpenModal] = useState(false)
     const [isOpenUserModal, openUserModal] = useState(false)
+    const [openPaticipantsModal, setOpenParticipantsModal] = useState(false)
+
     const pathname = usePathname()
 
     const dashboardId = useDashboardStore((s) => s.dashboardId)
@@ -62,6 +66,19 @@ export const DashboardHeader = () => {
                             </Tooltip>
                         </>
                     )}
+                    {onDashboardPage && (
+                        <Tooltip title='Посмотреть участников'>
+                            <IconButton
+                                onClick={() => {
+                                    setOpenParticipantsModal(true)
+                                }}
+                            >
+                                <RecentActorsOutlinedIcon
+                                    sx={{ fill: "white" }}
+                                />
+                            </IconButton>
+                        </Tooltip>
+                    )}
                     <div style={{ flexGrow: 1 }}></div>
                     <UserProfile />
                 </Toolbar>
@@ -73,6 +90,10 @@ export const DashboardHeader = () => {
             <CreateColumnModal
                 open={openModal}
                 onClose={() => setOpenModal(false)}
+            />
+            <ParticipantsModal
+                open={openPaticipantsModal}
+                onClose={() => setOpenParticipantsModal(false)}
             />
         </Box>
     )

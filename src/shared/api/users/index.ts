@@ -1,2 +1,6 @@
 export { UsersApi } from "./usersApi"
 export { useLoginMutation } from "./hooks/useLoginMutation"
+export { useGetDashboardParticipantsQuery } from "./hooks/useGetDashboardParticipantsQuery"
+export { useGetProfileQuery } from "./hooks/useGetProfileQuery"
+export { useRegistrationMutation } from "./hooks/useRegistrationMutation"
+export { useJoinUserToDashboardMutation } from "./hooks/useJoinUserToDashboardMutation"
