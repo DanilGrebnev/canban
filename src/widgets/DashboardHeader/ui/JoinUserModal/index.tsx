@@ -25,8 +25,6 @@ export const JoinUserModal = ({ open, onClose }: JoinUserModal) => {
     const { data: fondedUsers } = useSearchUserQuery(debounceName)
     const { mutate: joinUser, isSuccess } = useJoinUserToDashboardMutation()
 
-    useEffect(() => {}, [isSuccess])
-
     const filteredUsers = useMemo(
         () => fondedUsers?.filter((user) => user._id !== profile?._id),
         [fondedUsers],

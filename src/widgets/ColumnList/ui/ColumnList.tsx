@@ -3,7 +3,7 @@
 import { useGetColumnsListQuery } from "@/shared/api/columns"
 import { ColumnWithToDo } from "@/widgets/ColumnWithToDo"
 import { useDashboardStore } from "@/shared/store/dashboardStore"
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useRef } from "react"
 import s from "./columns-list.module.scss"
 import { cn } from "@/shared/lib/clsx"
 
