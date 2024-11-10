@@ -1,10 +1,12 @@
+"use client"
+
 import { Card } from "@/shared/ui/Card"
 import s from "./todo-item.module.scss"
 
 import { DeleteToDoButton } from "../DeleteToDoButton"
 import { MoveToDoButton } from "../MoveToDoButton"
 import { ChangeToDoButton } from "../ChangeToDoButton"
-import { TodoPriority, type TTodoItem } from "@/shared/types/todos"
+import { type TTodoItem } from "@/shared/types/todos"
 import { dateTransform } from "@/shared/lib/dateTransform"
 import Tooltip from "@mui/material/Tooltip"
 import { cn } from "@/shared/lib/clsx"

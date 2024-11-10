@@ -1,4 +1,5 @@
 "use client"
+
 import { TChildren } from "@/shared/types/Children"
 import { TanStackQueryProvider } from "./TanStackQueryProvider"
 import { MUIProvider } from "@/shared/providers/MUIProvider"

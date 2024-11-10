@@ -19,7 +19,7 @@ import RecentActorsOutlinedIcon from "@mui/icons-material/RecentActorsOutlined"
 import { ParticipantsModal } from "@/widgets/DashboardHeader/ui/ParticipantsModal"
 
 export const DashboardHeader = () => {
-    const [openModal, setOpenModal] = useState(false)
+    const [openCreateColumnModal, setCreateOpenModal] = useState(false)
     const [isOpenUserModal, openUserModal] = useState(false)
     const [openPaticipantsModal, setOpenParticipantsModal] = useState(false)
 
@@ -53,7 +53,9 @@ export const DashboardHeader = () => {
                     {showDashboardControl && (
                         <>
                             <Tooltip title='Создать колонку'>
-                                <IconButton onClick={() => setOpenModal(true)}>
+                                <IconButton
+                                    onClick={() => setCreateOpenModal(true)}
+                                >
                                     <ViewWeekOutlinedIcon
                                         sx={{ fill: "white" }}
                                     />
@@ -88,8 +90,8 @@ export const DashboardHeader = () => {
                 onClose={() => openUserModal(false)}
             />
             <CreateColumnModal
-                open={openModal}
-                onClose={() => setOpenModal(false)}
+                open={openCreateColumnModal}
+                onClose={() => setCreateOpenModal(false)}
             />
             <ParticipantsModal
                 open={openPaticipantsModal}

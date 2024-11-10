@@ -4,14 +4,29 @@ import s from "./column.module.scss"
 import Tooltip from "@mui/material/Tooltip"
 import { IconButton } from "@/shared/ui/IconButton"
 import { useEffect, useRef, useState } from "react"
+import { Modal } from "@/shared/ui/Modal"
+import Button from "@mui/material/Button"
+import { useDeleteColumnsMutation } from "@/shared/api/columns/hooks/useDeleteColumnsMutation"
 
 export interface TColumn extends TChildren {
     title: string | number
     addToDoAction?: () => void
+    deleteColumnButton?: boolean
+    columnId: string
 }
 
 export const Column = (props: TColumn) => {
-    const { title, children, addToDoAction } = props
+    const {
+        title,
+        columnId,
+        children,
+        addToDoAction,
+        deleteColumnButton = false,
+    } = props
+    const [openDeleteColumnModal, setOpenDeleteColumnModal] = useState(false)
+
+    const { mutate } = useDeleteColumnsMutation()
+
     const [height, setHeight] = useState<number | null>(null)
     const ref = useRef<HTMLDivElement | null>(null)
 
@@ -27,14 +42,26 @@ export const Column = (props: TColumn) => {
         >
             <header className={s["column-header"]}>
                 <h3>{title}</h3>
-                {!!addToDoAction && (
-                    <Tooltip title='Добавить задачу'>
-                        <IconButton
-                            iconVariant='addBox'
-                            onClick={addToDoAction}
-                        />
-                    </Tooltip>
-                )}
+                <div className={s["column-control"]}>
+                    {!!addToDoAction && (
+                        <Tooltip title='Добавить задачу'>
+                            <IconButton
+                                iconVariant='addBox'
+                                onClick={addToDoAction}
+                            />
+                        </Tooltip>
+                    )}
+                    {deleteColumnButton && (
+                        <Tooltip title='Удалить колонку'>
+                            <IconButton
+                                iconVariant='delete'
+                                onClick={() => {
+                                    setOpenDeleteColumnModal(true)
+                                }}
+                            />
+                        </Tooltip>
+                    )}
+                </div>
             </header>
             <div
                 ref={ref}
@@ -43,6 +70,21 @@ export const Column = (props: TColumn) => {
             >
                 <div className={s["dashboard-list"]}>{children}</div>
             </div>
+            <Modal
+                title={`Удалить колонку "${title}"? Все задачи данной колонки также будут удалены.`}
+                open={openDeleteColumnModal}
+                onClose={() => setOpenDeleteColumnModal(false)}
+            >
+                <Button
+                    onClick={() => mutate(columnId)}
+                    color='error'
+                >
+                    Удалить
+                </Button>
+                <Button onClick={() => setOpenDeleteColumnModal(false)}>
+                    Отмена
+                </Button>
+            </Modal>
         </Card>
     )
 }

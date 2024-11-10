@@ -11,8 +11,10 @@ import {
     RadioGroup,
     FormControlLabel,
     Radio,
+    Alert,
 } from "@mui/material"
 import { TodoPriority } from "@/shared/types/todos"
+import { useGetProfileQuery } from "@/shared/api/users"
 
 interface ColumnWithToDoProps extends TColumn {
     columnId: string
@@ -23,8 +25,15 @@ export const ColumnWithToDo = (props: ColumnWithToDoProps) => {
     const { columnId, title, dashboardId } = props
     const { data: todos } = useGetToDoQuery({ columnId })
 
-    const { mutate: createTodo } = useCreateTodoMutation()
+    const { mutate: createTodo, isError } = useCreateTodoMutation()
     const [openModal, setOpenModal] = useState(false)
+
+    const { data: profile } = useGetProfileQuery()
+
+    const currentDashboard = profile?.dashboardsList.find(
+        (dashboard) => dashboard.dashboardId === dashboardId,
+    )
+    const isOwner = currentDashboard?.role === "owner"
 
     const onSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
@@ -42,6 +51,8 @@ export const ColumnWithToDo = (props: ColumnWithToDoProps) => {
         <Column
             addToDoAction={() => setOpenModal(true)}
             title={title}
+            columnId={columnId}
+            deleteColumnButton={isOwner}
         >
             {todos?.map((todo) => {
                 return (
@@ -104,12 +115,15 @@ export const ColumnWithToDo = (props: ColumnWithToDoProps) => {
                     <Button
                         type='submit'
                         onClick={() => {
-                            setOpenModal(false)
+                            !isError && setOpenModal(false)
                         }}
                     >
                         Создать
                     </Button>
                 </form>
+                {isError && (
+                    <Alert severity='error'>Ошибка создания задачи</Alert>
+                )}
             </Modal>
         </Column>
     )
