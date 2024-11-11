@@ -5,21 +5,37 @@ import { ReactNode } from "react"
 
 interface TChangeDashboardTaskInfoModal {
     open: boolean
-    onClose: () => void
+    onClose: (e: any) => void
     children: ReactNode
     title?: string
+    className?: string
+    fullScreen?: boolean
+    fullWidth?: boolean
+    maxWidth?: Parameters<typeof Dialog>[0]["maxWidth"]
 }
 
 export const Modal = (props: TChangeDashboardTaskInfoModal) => {
-    const { onClose, open, children, title } = props
+    const {
+        onClose,
+        fullScreen = false,
+        className,
+        open,
+        children,
+        title,
+        maxWidth,
+        fullWidth,
+    } = props
 
     return (
         <Dialog
+            maxWidth={maxWidth}
+            fullScreen={fullScreen}
+            fullWidth={fullWidth}
             open={open}
             onClose={onClose}
         >
             {title && <DialogTitle>{title}</DialogTitle>}
-            <DialogContent>{children}</DialogContent>
+            <DialogContent className={className}>{children}</DialogContent>
         </Dialog>
     )
 }

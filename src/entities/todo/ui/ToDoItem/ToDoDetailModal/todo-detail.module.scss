@@ -1,0 +1,16 @@
+.todo{
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+}
+
+.title {
+  font-weight: 500;
+  font-size: var(--font-200);
+  text-align: center;
+}
+
+.date{
+  font-style: italic;
+  color: rgba(0 0 0 / 0.5);
+}

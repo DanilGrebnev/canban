@@ -10,6 +10,9 @@ import { type TTodoItem } from "@/shared/types/todos"
 import { dateTransform } from "@/shared/lib/dateTransform"
 import Tooltip from "@mui/material/Tooltip"
 import { cn } from "@/shared/lib/clsx"
+import { useState } from "react"
+import { Modal } from "@/shared/ui/Modal"
+import { ToDoDetailModal } from "@/entities/todo/ui/ToDoItem/ToDoDetailModal/ToDoDetailModal"
 
 interface TDashboardItem extends Omit<TTodoItem, "_id"> {
     todoId: string
@@ -26,6 +29,7 @@ export const ToDoItem = (props: TDashboardItem) => {
         priority,
         columnId,
     } = props
+    const [openTodoDetail, setOpenTodoDetail] = useState(false)
 
     const priorityValue = {
         low: "Низкий",
@@ -34,30 +38,44 @@ export const ToDoItem = (props: TDashboardItem) => {
     }
 
     return (
-        <Card
-            variant='outlined'
-            className={s["todo-item"]}
-        >
-            <Tooltip title={`Приоритет: ${priorityValue[priority]}`}>
-                <div className={cn(s["priority-circle"], s[priority])}></div>
-            </Tooltip>
+        <>
+            <Card
+                variant='outlined'
+                className={s["todo-item"]}
+                onClick={() => setOpenTodoDetail(true)}
+            >
+                <Tooltip title={`Приоритет: ${priorityValue[priority]}`}>
+                    <div
+                        className={cn(s["priority-circle"], s[priority])}
+                    ></div>
+                </Tooltip>
 
-            <div className={s["item-content"]}>
-                <h3 className={s.title}>{todo}</h3>
-                <h4>Автор: {author}</h4>
-                <h4 className={s["creation-date"]}>
-                    Дата создания: <span>{dateTransform(creationDate)}</span>
-                </h4>
-            </div>
-            <div className={s["control-panel"]}>
-                <ChangeToDoButton />
-                <DeleteToDoButton todoId={todoId} />
-                <MoveToDoButton
-                    columnId={columnId}
-                    dashboardId={dashboardId}
-                    todoId={todoId}
-                />
-            </div>
-        </Card>
+                <div className={s["item-content"]}>
+                    <h3 className={s.title}>{todo}</h3>
+                    <h4>Автор: {author}</h4>
+                    <h4 className={s["creation-date"]}>
+                        Дата создания:{" "}
+                        <span>{dateTransform(creationDate)}</span>
+                    </h4>
+                </div>
+                <div
+                    onClick={(e) => e.stopPropagation()}
+                    className={s["control-panel"]}
+                >
+                    <ChangeToDoButton />
+                    <DeleteToDoButton todoId={todoId} />
+                    <MoveToDoButton
+                        columnId={columnId}
+                        dashboardId={dashboardId}
+                        todoId={todoId}
+                    />
+                </div>
+            </Card>
+            <ToDoDetailModal
+                todoId={todoId}
+                open={openTodoDetail}
+                onClose={() => setOpenTodoDetail(false)}
+            />
+        </>
     )
 }

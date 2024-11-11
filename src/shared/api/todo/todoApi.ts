@@ -2,7 +2,7 @@ import { api } from "../api-instance"
 import { TodoPriority, TTodoItem } from "@/shared/types/todos"
 
 const todoApi = api.extend(({ prefixUrl }) => ({
-    prefixUrl: prefixUrl + "/todos/",
+    prefixUrl: prefixUrl + "/todos",
 }))
 
 export interface TMoveTodoToAnotherColumn {
@@ -13,11 +13,15 @@ export interface TMoveTodoToAnotherColumn {
 export const TodoApi = {
     getTodos: (columnId: string) => todoApi.get(columnId).json<TTodoItem[]>(),
 
+    getTodoDetail: (todoId: string) =>
+        todoApi.get(`detail/${todoId}`).json<TTodoItem>(),
+
     moveTodoToAnotherColumn: (args: TMoveTodoToAnotherColumn) => {
         return todoApi
             .post("move-todo", { json: args, credentials: "include" })
             .json()
     },
+
     createTodo: (data: {
         todo: string
         description: string
