@@ -34,7 +34,15 @@ export const UsersApi = {
             .post("join", { json: data, credentials: "include" })
             .json()
     },
-
+    deleteUserFromDashboard: (data: {
+        dashboardId: string
+        userId: string
+    }) => {
+        return usersApi.delete("remove-from-dashboard", {
+            credentials: "include",
+            json: data,
+        })
+    },
     getDashboardParticipants: (dashboardId: string) => {
         return usersApi
             .get(`participants/${dashboardId}`, {

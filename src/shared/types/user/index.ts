@@ -5,12 +5,13 @@ export interface IProfile {
     login: string
     dashboardsList: IProfileDashboardListItem[]
 }
+export type IUserRole = "owner" | "employee"
 
 export interface IProfileDashboardListItem {
     _id: string
     dashboardId: string
     dashboardName: string
-    role: "owner" | "employee"
+    role: IUserRole
 }
 
 export interface IRegistration {

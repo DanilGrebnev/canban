@@ -20,10 +20,6 @@ export const ToDoDetailModal = (props: ToDoDetailModal) => {
         todoId: todoId || "",
     })
 
-    useEffect(() => {
-        console.log(data)
-    }, [data])
-
     return (
         <Modal
             maxWidth='md'
@@ -40,6 +36,7 @@ export const ToDoDetailModal = (props: ToDoDetailModal) => {
                     {data?.description || "Описание отсутствует"}
                 </h4>
                 <p>Автор: {data?.author}</p>
+                <div className={s.comment}></div>
                 <p className={s.date}>
                     Дата создания:{" "}
                     {data?.creationDate && dateTransform(data?.creationDate)}

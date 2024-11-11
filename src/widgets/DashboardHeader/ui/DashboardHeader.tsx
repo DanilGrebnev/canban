@@ -12,39 +12,25 @@ import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt"
 import { usePathname } from "next/navigation"
 import { CreateColumnModal } from "@/widgets/DashboardHeader/ui/CreateColumnModal"
 import { JoinUserModal } from "@/widgets/DashboardHeader/ui/JoinUserModal"
-import { useGetProfileQuery } from "@/shared/api/users/hooks/useGetProfileQuery"
-import { useDashboardStore } from "@/shared/store/dashboardStore"
-import { IProfileDashboardListItem } from "@/shared/types/user"
 import RecentActorsOutlinedIcon from "@mui/icons-material/RecentActorsOutlined"
 import { ParticipantsModal } from "@/widgets/DashboardHeader/ui/ParticipantsModal"
+import { useDashboardRole } from "@/entities/user"
 
 export const DashboardHeader = () => {
     const [openCreateColumnModal, setCreateOpenModal] = useState(false)
     const [isOpenUserModal, openUserModal] = useState(false)
-    const [openPaticipantsModal, setOpenParticipantsModal] = useState(false)
+    const [openParticipantsModal, setOpenParticipantsModal] = useState(false)
 
     const pathname = usePathname()
 
-    const dashboardId = useDashboardStore((s) => s.dashboardId)
-
-    const { data: profile } = useGetProfileQuery()
-
-    const currentDashboard = useMemo(
-        () =>
-            profile?.dashboardsList.find(
-                (dashboard) => dashboard.dashboardId === dashboardId,
-            ) as IProfileDashboardListItem,
-        [dashboardId, profile],
-    )
-
-    const userRole = currentDashboard?.role
+    const { isDashboardOwner } = useDashboardRole()
 
     const onDashboardPage = useMemo(
         () => pathname.search(/\/dashboard\/\w+/) !== -1,
         [pathname],
     )
 
-    const showDashboardControl = onDashboardPage && userRole === "owner"
+    const showDashboardControl = onDashboardPage && isDashboardOwner
 
     return (
         <Box sx={{ flexGrow: 1 }}>
@@ -94,7 +80,7 @@ export const DashboardHeader = () => {
                 onClose={() => setCreateOpenModal(false)}
             />
             <ParticipantsModal
-                open={openPaticipantsModal}
+                open={openParticipantsModal}
                 onClose={() => setOpenParticipantsModal(false)}
             />
         </Box>

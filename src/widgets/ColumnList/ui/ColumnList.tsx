@@ -3,25 +3,16 @@
 import { useGetColumnsListQuery } from "@/shared/api/columns"
 import { ColumnWithToDo } from "@/widgets/ColumnWithToDo"
 import { useDashboardStore } from "@/shared/store/dashboardStore"
-import { useEffect, useRef } from "react"
+import { useRef } from "react"
 import s from "./columns-list.module.scss"
 import { cn } from "@/shared/lib/clsx"
 
-interface ColumnListProps {
-    dashboardId: string
-}
+export const ColumnList = () => {
+    const dashboardId = useDashboardStore((s) => s.dashboardId)
 
-export const ColumnList = (props: ColumnListProps) => {
-    const { dashboardId } = props
-    const setDashboardId = useDashboardStore((s) => s.setDashboardId)
     const ref = useRef<HTMLDivElement | null>(null)
 
-    useEffect(() => {
-        if (!dashboardId) return
-        setDashboardId(dashboardId)
-    }, [dashboardId])
-
-    const { data } = useGetColumnsListQuery({ dashboardId: props.dashboardId })
+    const { data } = useGetColumnsListQuery({ dashboardId })
 
     return (
         <div
@@ -31,14 +22,18 @@ export const ColumnList = (props: ColumnListProps) => {
                 gridTemplateColumns: `repeat(${data?.length}, 1fr)`,
             }}
         >
-            {data?.map((column) => (
-                <ColumnWithToDo
-                    key={column._id}
-                    dashboardId={dashboardId}
-                    columnId={column._id}
-                    title={column.columnName}
-                />
-            ))}
+            {!dashboardId ? (
+                <h1>Загрузка...</h1>
+            ) : (
+                data?.map((column) => (
+                    <ColumnWithToDo
+                        key={column._id}
+                        dashboardId={dashboardId}
+                        columnId={column._id}
+                        title={column.columnName}
+                    />
+                ))
+            )}
         </div>
     )
 }

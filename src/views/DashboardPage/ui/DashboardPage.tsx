@@ -1,6 +1,6 @@
 import s from "./dashboard-page.module.scss"
 import { ColumnList } from "@/widgets/ColumnList"
-import { DashboardPageContextProvider } from "../context/provider"
+import { SetDashboardIdInStoreProvider } from "../SetDashboardIdInStoreProvider"
 
 interface PageParams {
     params: Promise<{
@@ -13,9 +13,9 @@ export const DashboardPage = async (props: PageParams) => {
 
     return (
         <div className={s.page}>
-            <DashboardPageContextProvider dashboardId={dashboardId}>
-                <ColumnList dashboardId={dashboardId} />
-            </DashboardPageContextProvider>
+            <SetDashboardIdInStoreProvider dashboardId={dashboardId}>
+                <ColumnList />
+            </SetDashboardIdInStoreProvider>
         </div>
     )
 }

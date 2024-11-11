@@ -3,12 +3,13 @@ import { ColumnsApi } from "@/shared/api/columns/columnsApi"
 import { columnsApiKeys } from "@/shared/api/columns/columnsApiKeys"
 
 interface UseGetColumnsListQuery {
-    dashboardId: string
+    dashboardId: string | null
 }
 
 export const useGetColumnsListQuery = (args: UseGetColumnsListQuery) => {
     return useQuery({
-        queryFn: () => ColumnsApi.getColumnsList(args.dashboardId),
+        enabled: !!args.dashboardId,
+        queryFn: () => ColumnsApi.getColumnsList(args.dashboardId || ""),
         queryKey: [columnsApiKeys.columnsList, args.dashboardId],
     })
 }

@@ -16,18 +16,20 @@
   border-radius: 100%;
   width: 10px;
   height: 10px;
-  -webkit-box-shadow: 0 0 8px 0 rgba(34, 60, 80, 0.2);
-  -moz-box-shadow: 0 0 8px 0 rgba(34, 60, 80, 0.2);
-  box-shadow: 0 0 8px 0 rgba(34, 60, 80, 0.2);
+  box-shadow: 0 0 8px 0 rgb(34 60 80 / 20%);
+  box-shadow: 0 0 8px 0 rgb(34 60 80 / 20%);
+  box-shadow: 0 0 8px 0 rgb(34 60 80 / 20%);
   top: 10px;
   right: 10px;
 
   &.high{
     background: red;
   }
+
   &.middle{
     background: orange;
   }
+
   &.low{
     background: green;
   }

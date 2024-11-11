@@ -3,9 +3,10 @@
 import { IconButton } from "@/shared/ui/IconButton"
 import { Menu } from "@/shared/ui/Menu"
 import MenuItem from "@mui/material/MenuItem"
-import { useEffect, useMemo, useState } from "react"
+import { useMemo, useState } from "react"
 import { useMoveTodoToAnotherColumnMutation } from "@/shared/api/todo"
 import { useGetColumnsListQuery } from "@/shared/api/columns"
+import s from "./move-todo-button.module.scss"
 
 interface MoveToDoButtonProps {
     todoId: string
@@ -52,6 +53,7 @@ export const MoveToDoButton = (props: MoveToDoButtonProps) => {
                 {columnsList?.map((column) => (
                     <MenuItem
                         key={column._id}
+                        className={s["menu-item"]}
                         onClick={() => {
                             handleClose?.()
                             mutate({ columnId: column._id, todoId })
