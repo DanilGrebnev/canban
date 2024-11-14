@@ -1,13 +1,11 @@
 "use client"
 
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
+import { QueryClientProvider } from "@tanstack/react-query"
 import { TChildren } from "@/shared/types/Children"
-
-const queryClient = new QueryClient({
-    defaultOptions: { queries: { retry: false } },
-})
+import { getQueryClient } from "@/shared/providers/TanStackQueryProvider/getQueryClient"
 
 export const TanStackQueryProvider = ({ children }: TChildren) => {
+    const queryClient = getQueryClient()
     return (
         <QueryClientProvider client={queryClient}>
             {children}

@@ -14,6 +14,7 @@ export const SetDashboardIdInStoreProvider = ({
     const setDashboardId = useDashboardStore((s) => s.setDashboardId)
 
     useEffect(() => {
+        console.log({ dashboardId })
         if (!dashboardId) return
         setDashboardId(dashboardId)
     }, [dashboardId])

@@ -1,16 +1,18 @@
-import { useMutation } from "@tanstack/react-query"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { UsersApi } from "@/shared/api/users"
 import { useRouter } from "next/navigation"
 import { routes } from "@/shared/routes"
+import { usersApiKeys } from "@/shared/api/users/usersApiKeys"
 
 export const useRegistrationMutation = () => {
     const router = useRouter()
+    const client = useQueryClient()
 
     return useMutation({
         mutationFn: UsersApi.registration,
-        onSuccess: (data) => {
+        onSuccess: () => {
             router.push(routes.dashboardList)
-            console.log(data)
+            client.invalidateQueries({ queryKey: [usersApiKeys.profile] })
         },
     })
 }

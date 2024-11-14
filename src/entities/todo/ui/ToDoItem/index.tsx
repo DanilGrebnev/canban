@@ -11,7 +11,6 @@ import { dateTransform } from "@/shared/lib/dateTransform"
 import Tooltip from "@mui/material/Tooltip"
 import { cn } from "@/shared/lib/clsx"
 import { useState } from "react"
-import { Modal } from "@/shared/ui/Modal"
 import { ToDoDetailModal } from "@/entities/todo/ui/ToDoItem/ToDoDetailModal/ToDoDetailModal"
 
 interface TDashboardItem extends Omit<TTodoItem, "_id"> {

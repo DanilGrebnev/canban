@@ -5,4 +5,9 @@
     --font-100: 12px;
     --font-150: 14px;
     --font-200: 16px;
+
+    /* Colors */
+    --main: black;
+    --secondary: white;
+    --border: rgba(255 355 355 / 30%)
 }

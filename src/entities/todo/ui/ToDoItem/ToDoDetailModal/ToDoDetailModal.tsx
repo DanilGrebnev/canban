@@ -2,9 +2,14 @@
 
 import { Modal } from "@/shared/ui/Modal"
 import { useGetTodoDetailQuery } from "@/shared/api/todo"
-import { useEffect } from "react"
+import { useState } from "react"
 import s from "./todo-detail.module.scss"
 import { dateTransform } from "@/shared/lib/dateTransform"
+import IconButton from "@mui/material/IconButton"
+import { Collapse, Divider, Stack } from "@mui/material"
+import { CommentsItem } from "@/entities/comments"
+import Typography from "@mui/material/Typography"
+import { ExpandMore } from "@mui/icons-material"
 
 interface ToDoDetailModal {
     open: boolean
@@ -14,6 +19,7 @@ interface ToDoDetailModal {
 
 export const ToDoDetailModal = (props: ToDoDetailModal) => {
     const { open, todoId, onClose } = props
+    const [isCommentOpen, setCommentOpen] = useState<boolean>(false)
 
     const { data } = useGetTodoDetailQuery({
         enabled: open,
@@ -35,13 +41,62 @@ export const ToDoDetailModal = (props: ToDoDetailModal) => {
                 <h4 className={s.description}>
                     {data?.description || "Описание отсутствует"}
                 </h4>
-                <p>Автор: {data?.author}</p>
-                <div className={s.comment}></div>
-                <p className={s.date}>
-                    Дата создания:{" "}
-                    {data?.creationDate && dateTransform(data?.creationDate)}
-                </p>
+
+                <Stack
+                    direction={"row"}
+                    spacing={2}
+                    alignItems={"center"}
+                >
+                    <Typography
+                        variant={"caption"}
+                        sx={{ fontStyle: "italic" }}
+                        color={"textSecondary"}
+                    >
+                        Автор: {data?.author}
+                    </Typography>
+                    <Divider
+                        flexItem={true}
+                        variant={"middle"}
+                        orientation={"vertical"}
+                    />
+                    <Typography
+                        variant={"caption"}
+                        color={"textSecondary"}
+                        sx={{ fontStyle: "italic" }}
+                    >
+                        Дата создания:{" "}
+                        {data?.creationDate &&
+                            dateTransform(data?.creationDate)}
+                    </Typography>
+                    <Divider
+                        flexItem={true}
+                        variant={"middle"}
+                        orientation={"vertical"}
+                    />
+                    <Typography
+                        variant={"caption"}
+                        color={"textSecondary"}
+                        sx={{ fontStyle: "italic" }}
+                    >
+                        Комментариев: 5
+                    </Typography>
+                    <IconButton
+                        size='small'
+                        sx={{ ml: "auto" }}
+                        onClick={() => setCommentOpen((prev) => !prev)}
+                    >
+                        <ExpandMore
+                            sx={{
+                                transform: `${isCommentOpen ? "rotate(180deg)" : ""}`,
+                            }}
+                            fontSize='small'
+                        />
+                    </IconButton>
+                </Stack>
             </div>
+            <Collapse in={isCommentOpen}>
+                <CommentsItem />
+            </Collapse>
         </Modal>
     )
 }
