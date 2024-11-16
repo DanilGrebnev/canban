@@ -3,6 +3,7 @@ import { CustomIconButton } from "@/shared/ui/CustomIconButton"
 import { Box, Stack } from "@mui/material"
 import EditIcon from "@mui/icons-material/Edit"
 import DeleteIcon from "@mui/icons-material/Delete"
+import { useCommentsStore } from "@/shared/store/commentsStore"
 
 interface CommentOwnerActionProps {
     handleDelete: () => void
@@ -19,7 +20,7 @@ export const CommentOwnerAction: FC<CommentOwnerActionProps> = ({
         <>
             {owner && (
                 <Box
-                    ml={"auto"}
+                    ml='auto'
                     mr={1}
                 >
                     <CustomIconButton

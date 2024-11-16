@@ -2,6 +2,7 @@ export interface TTodoItem {
     _id: string
     todo: string
     description: string
+    commentsAmount: number
     columnId: string
     creationDate: string
     priority: TodoPriority

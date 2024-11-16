@@ -1,6 +1,7 @@
 import s from "./dashboard-page.module.scss"
-import { ColumnList } from "@/widgets/ColumnList"
+import { ColumnsList } from "@/entities/columns"
 import { SetDashboardIdInStoreProvider } from "../SetDashboardIdInStoreProvider"
+import { ColumnWithToDo } from "@/widgets/ColumnWithToDo"
 
 interface PageParams {
     params: Promise<{
@@ -14,7 +15,7 @@ export const DashboardPage = async (props: PageParams) => {
     return (
         <div className={s.page}>
             <SetDashboardIdInStoreProvider dashboardId={dashboardId}>
-                <ColumnList />
+                <ColumnsList ColumnItem={ColumnWithToDo} />
             </SetDashboardIdInStoreProvider>
         </div>
     )

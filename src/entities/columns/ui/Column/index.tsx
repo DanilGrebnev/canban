@@ -1,3 +1,5 @@
+"use client"
+
 import { Card } from "@/shared/ui/Card"
 import { TChildren } from "@/shared/types/Children"
 import s from "./column.module.scss"
@@ -6,7 +8,7 @@ import { IconButton } from "@/shared/ui/IconButton"
 import { useEffect, useRef, useState } from "react"
 import { Modal } from "@/shared/ui/Modal"
 import Button from "@mui/material/Button"
-import { useDeleteColumnsMutation } from "@/shared/api/columns/hooks/useDeleteColumnsMutation"
+import { useDeleteColumnsMutation } from "@/shared/api/columns"
 
 export interface TColumn extends TChildren {
     title: string | number

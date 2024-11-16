@@ -3,22 +3,24 @@
 import { Card } from "@/shared/ui/Card"
 import s from "./todo-item.module.scss"
 
-import { DeleteToDoButton } from "../DeleteToDoButton"
-import { MoveToDoButton } from "../MoveToDoButton"
-import { ChangeToDoButton } from "../ChangeToDoButton"
+import {
+    DeleteToDoButton,
+    ChangeToDoButton,
+    MoveToDoButton,
+} from "@/entities/todo"
+import { ToDoDetailModal } from "@/widgets/ToDoDetailModal/ToDoDetailModal"
 import { type TTodoItem } from "@/shared/types/todos"
-import { dateTransform } from "@/shared/lib/dateTransform"
 import Tooltip from "@mui/material/Tooltip"
 import { cn } from "@/shared/lib/clsx"
 import { useState } from "react"
-import { ToDoDetailModal } from "@/entities/todo/ui/ToDoItem/ToDoDetailModal/ToDoDetailModal"
+import { format } from "@formkit/tempo"
 
 interface TDashboardItem extends Omit<TTodoItem, "_id"> {
     todoId: string
     dashboardId: string
 }
 
-export const ToDoItem = (props: TDashboardItem) => {
+export const ToDoCard = (props: TDashboardItem) => {
     const {
         todoId,
         creationDate,
@@ -54,7 +56,7 @@ export const ToDoItem = (props: TDashboardItem) => {
                     <h4>Автор: {author}</h4>
                     <h4 className={s["creation-date"]}>
                         Дата создания:{" "}
-                        <span>{dateTransform(creationDate)}</span>
+                        <span>{format(creationDate, "short")}</span>
                     </h4>
                 </div>
                 <div

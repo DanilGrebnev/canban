@@ -2,7 +2,7 @@
 
 import { Column, TColumn } from "@/entities/columns"
 import { useGetToDoQuery, useCreateTodoMutation } from "@/shared/api/todo"
-import { ToDoItem } from "@/entities/todo"
+import { ToDoCard } from "../../ToDoCard"
 import { Modal } from "@/shared/ui/Modal"
 import { FormEvent, useState } from "react"
 import {
@@ -56,7 +56,7 @@ export const ColumnWithToDo = (props: ColumnWithToDoProps) => {
         >
             {todos?.map((todo) => {
                 return (
-                    <ToDoItem
+                    <ToDoCard
                         dashboardId={dashboardId}
                         {...todo}
                         todoId={todo._id}

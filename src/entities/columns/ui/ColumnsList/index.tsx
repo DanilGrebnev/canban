@@ -1,13 +1,21 @@
 "use client"
 
-import { useGetColumnsListQuery } from "@/shared/api/columns"
-import { ColumnWithToDo } from "@/widgets/ColumnWithToDo"
 import { useDashboardStore } from "@/shared/store/dashboardStore"
-import { useRef } from "react"
-import s from "./columns-list.module.scss"
+import { JSX, useRef } from "react"
+import { useGetColumnsListQuery } from "@/shared/api/columns"
 import { cn } from "@/shared/lib/clsx"
+import s from "./columns-list.module.scss"
 
-export const ColumnList = () => {
+interface ColumnsListProps {
+    ColumnItem: (props: {
+        dashboardId: string
+        columnId: string
+        title: string
+    }) => JSX.Element
+}
+
+export const ColumnsList = (props: ColumnsListProps) => {
+    const { ColumnItem } = props
     const dashboardId = useDashboardStore((s) => s.dashboardId)
 
     const ref = useRef<HTMLDivElement | null>(null)
@@ -26,7 +34,7 @@ export const ColumnList = () => {
                 <h1>Загрузка...</h1>
             ) : (
                 data?.map((column) => (
-                    <ColumnWithToDo
+                    <ColumnItem
                         key={column._id}
                         dashboardId={dashboardId}
                         columnId={column._id}

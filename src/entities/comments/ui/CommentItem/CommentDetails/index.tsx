@@ -1,24 +1,30 @@
-import React, { FC } from "react"
+import { FC } from "react"
 import { Chip, Stack, Typography, useTheme } from "@mui/material"
 import AccountCircleIcon from "@mui/icons-material/AccountCircle"
+
+type IReplyInfo = {
+    authorName: string
+    date: string
+}
 
 interface PostDetailsProps {
     author: string
     date: string
-    isReply: boolean
+    replyInfo: IReplyInfo | null
 }
 
 export const CommentDetails: FC<PostDetailsProps> = ({
     author,
     date,
-    isReply,
+    replyInfo,
 }) => {
     const theme = useTheme()
+
     return (
         <Stack
             spacing={2}
             direction='row'
-            alignItems={"center"}
+            alignItems='center'
         >
             <Typography
                 fontWeight={500}
@@ -27,24 +33,24 @@ export const CommentDetails: FC<PostDetailsProps> = ({
                 {author}
             </Typography>
             <Typography
-                variant={"body2"}
-                color={"textSecondary"}
+                variant='body2'
+                color='textSecondary'
             >
                 {date}
             </Typography>
-            {isReply && (
+            {replyInfo && (
                 <>
                     <Typography
-                        color={"textDisabled"}
-                        variant={"caption"}
+                        color='textDisabled'
+                        variant='caption'
                     >
                         В ответ:
                     </Typography>
                     <Chip
-                        size={"small"}
+                        size='small'
                         icon={<AccountCircleIcon />}
-                        title={"12.11.24 : 16:34"}
-                        label={"Данил"}
+                        title={replyInfo.date}
+                        label={replyInfo.authorName}
                         sx={{
                             ml: 1,
                             fontSize: theme.typography.caption,
