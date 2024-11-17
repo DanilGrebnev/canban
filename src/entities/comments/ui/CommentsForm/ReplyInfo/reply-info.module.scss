@@ -1,0 +1,14 @@
+.reply-info {
+  @apply flex
+    p-[--gap]
+    gap-[--gap]
+    items-center
+    text-[--text-color-3];
+
+  & p {
+    @apply max-w-[300px]
+      w-full
+      overflow-hidden
+      truncate;
+  }
+}

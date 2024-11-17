@@ -10,6 +10,7 @@ export const DashboardList = () => {
         <>
             {data?.map((dashboard) => (
                 <DashboardListItem
+                    createdDate={dashboard.createdDate}
                     dashboardId={dashboard._id}
                     dashboardName={dashboard.dashboardName}
                     participants={dashboard.participants}

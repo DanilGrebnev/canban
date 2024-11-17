@@ -1,0 +1,7 @@
+.reply-btn {
+    @apply flex  gap-[--gap] items-center text-[--text-color-3];
+
+    & * {
+        @apply fill-[--text-color-3];
+    }
+}

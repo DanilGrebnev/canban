@@ -4,24 +4,24 @@ import { immer } from "zustand/middleware/immer"
 type IReplyData = {
     authorName: string
     authorId: string
+    replyText: string
 }
 
-type CommentsState = {
-    replyData: IReplyData
+type CommentsStore = {
+    replyData: IReplyData | null
+    setReplyData: (replyData: IReplyData | null) => void
 }
 
-type CommentsActions = {
-    setReplyData: (replyData: IReplyData) => void
-}
-
-export const useCommentsStore = create<CommentsState & CommentsActions>()(
-    immer((set) => ({
-        replyData: { authorId: "", authorName: "" },
-
-        setReplyData: (replyData) => {
-            set((state) => {
-                state.replyData = replyData
-            })
-        },
-    })),
+export const useCommentsStore = create<CommentsStore>()(
+    immer(
+        (set) =>
+            ({
+                replyData: null,
+                setReplyData: (replyData: IReplyData | null) => {
+                    set((state) => {
+                        state.replyData = replyData
+                    })
+                },
+            }) as CommentsStore,
+    ),
 )

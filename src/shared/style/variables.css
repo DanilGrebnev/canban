@@ -9,5 +9,8 @@
     /* Colors */
     --main: black;
     --secondary: white;
+    --text-color-1: black;
+    --text-color-2: white;
+    --text-color-3: rgba(0 0 0 / 50%);
     --border: rgba(255 355 355 / 30%)
 }

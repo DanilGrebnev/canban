@@ -1,7 +1,8 @@
-.list{
-  display: flex;
-  flex-direction: column;
-  padding: var(--gap);
-  gap:var(--gap);
+.list {
+  @apply
+    flex
+    flex-col
+    p-[--gap]
+    gap-[--gap];
 }
 

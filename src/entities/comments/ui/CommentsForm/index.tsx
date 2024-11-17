@@ -1,13 +1,15 @@
-import { Chip, Collapse, Stack } from "@mui/material"
 import { CustomIconButton } from "@/shared/ui/CustomIconButton"
 import { CustomTextField, AddCommentBox } from "./MUICustomComponent"
 import SendIcon from "@mui/icons-material/Send"
-import Typography from "@mui/material/Typography"
-import CancelIcon from "@mui/icons-material/Cancel"
 import { useCreateCommentsMutation } from "@/shared/api/comments"
 import { useForm } from "react-hook-form"
 import { useOnClickOutside } from "usehooks-ts"
-import { useRef } from "react"
+import { useEffect, useRef, useState } from "react"
+import { useCommentsStore } from "@/shared/store/commentsStore"
+import { ICreateCommentsDTO } from "@/shared/api/comments/types"
+import s from "./comments-form.module.scss"
+import { ReplyInfo } from "@/entities/comments/ui/CommentsForm/ReplyInfo"
+import { cn } from "@/shared/lib/clsx"
 
 interface CommentsFormProps {
     replyData?: {
@@ -21,7 +23,7 @@ interface CommentsFormProps {
 }
 
 export const CommentsForm = (props: CommentsFormProps) => {
-    const { replyData, collapsed, setCollapsed, authorName, todoId } = props
+    const { collapsed, setCollapsed, authorName, todoId } = props
 
     const {
         register,
@@ -33,78 +35,68 @@ export const CommentsForm = (props: CommentsFormProps) => {
 
     const { mutate } = useCreateCommentsMutation()
 
-    const ref = useRef<HTMLDivElement | null>(null)
+    const ref = useRef<HTMLFormElement | null>(null)
 
-    const onSubmit = handleSubmit((data) => {
-        mutate({ ...data, authorName, todoId, replyInfo: null })
+    const setReplyData = useCommentsStore((s) => s.setReplyData)
+    const replyInfo = useCommentsStore((s) => s.replyData)
+
+    const onSubmit = handleSubmit(({ text }) => {
+        let reply = null
+        if (replyInfo) {
+            const { replyText, ...replyData } = replyInfo
+            reply = replyData
+        }
+
+        const data: ICreateCommentsDTO = {
+            text,
+            authorName,
+            todoId,
+            replyInfo: reply,
+        }
+        mutate(data)
     })
 
     useOnClickOutside(ref, () => setCollapsed(false))
 
+    useEffect(() => {
+        return () => setReplyData(null)
+    }, [])
+
+    useEffect(() => {
+        if (replyInfo) {
+            ref.current?.focus()
+        }
+    }, [setReplyData])
+
     return (
-        <AddCommentBox
+        <form
             ref={ref}
+            className={cn(s.form, { [s.open]: collapsed })}
             onClick={() => setCollapsed(true)}
-            isActive={collapsed}
+            onSubmit={onSubmit}
         >
-            <form onSubmit={onSubmit}>
-                <Collapse
-                    in={collapsed}
-                    timeout={300}
-                >
-                    {replyData && (
-                        <Stack
-                            direction='row'
-                            alignItems='center'
-                            spacing={1}
-                            p={1}
-                        >
-                            <Chip
-                                label={replyData?.author}
-                                deleteIcon={<CancelIcon />}
-                                onDelete={() => {}}
-                            />
-                            <Typography
-                                variant='caption'
-                                color='textDisabled'
-                                noWrap
-                                maxWidth='150px'
-                            >{`: ${replyData?.text}`}</Typography>
-                        </Stack>
-                    )}
-                </Collapse>
-
-                <CustomTextField
-                    {...register("text")}
-                    multiline
-                    placeholder='Написать комментарий...'
+            {replyInfo && (
+                <ReplyInfo
+                    onClick={() => setReplyData(null)}
+                    authorName={replyInfo.authorName}
+                    replyText={replyInfo.replyText}
                 />
+            )}
+            <CustomTextField
+                {...register("text")}
+                multiline
+                placeholder='Написать комментарий...'
+            />
 
-                <Collapse
-                    sx={{
-                        width: "max-content",
-                        justifySelf: "flex-end",
-                    }}
-                    in={collapsed}
+            <div className={s["send-button"]}>
+                <CustomIconButton
+                    centerRipple={false}
+                    color='info'
+                    type='submit'
                 >
-                    <Stack
-                        p={1}
-                        direction='row'
-                        width='max-content'
-                        justifyContent='center'
-                        position='relative'
-                    >
-                        <CustomIconButton
-                            centerRipple={false}
-                            color='info'
-                            type='submit'
-                            sx={{ ml: "auto" }}
-                        >
-                            <SendIcon />
-                        </CustomIconButton>
-                    </Stack>
-                </Collapse>
-            </form>
-        </AddCommentBox>
+                    <SendIcon />
+                </CustomIconButton>
+            </div>
+        </form>
     )
 }

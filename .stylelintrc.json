@@ -1,9 +1,27 @@
 {
-  "extends": [
-    "stylelint-config-standard-scss",
-    "stylelint-config-prettier-scss"
-  ],
+  "extends": ["stylelint-prettier/recommended"],
+  "plugins": ["stylelint-order", "stylelint-scss", "stylelint-prettier"],
   "rules": {
-    "selector-class-pattern": null
+    "prettier/prettier": [
+      "error",{
+        "endOfLine": "auto"
+      }
+    ],
+    "order/properties-alphabetical-order": true,
+    "scss/at-rule-no-unknown": null,
+    "scss/at-import-no-partial-leading-underscore": null,
+    "at-rule-no-unknown": [
+      true,
+      {
+        "ignoreAtRules": [
+          "apply",
+          "layer",
+          "responsive",
+          "screen",
+          "tailwind",
+          "variants"
+        ]
+      }
+    ]
   }
 }

@@ -58,10 +58,10 @@ export const ToDoDetailModal = (props: ToDoDetailModal) => {
                     setCollapsedCommentForm(value)
                 }
                 authorName={profile?.name || ""}
-                replyData={{
-                    author: "Ivan",
-                    text: "1asdasdaaasasdasdasdaqwaasdasdasd",
-                }}
+                // replyData={{
+                //     author: "Ivan",
+                //     text: "1asdasdaaasasdasdasdaqwaasdasdasd",
+                // }}
             />
         </Modal>
     )

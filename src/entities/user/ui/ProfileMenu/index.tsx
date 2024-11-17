@@ -19,6 +19,7 @@ import { Modal } from "@/shared/ui/Modal"
 import { useMemo, useRef, useState } from "react"
 import { IconButton } from "@/shared/ui/IconButton"
 import { useCreateDashboardMutation } from "@/shared/api/dashboards/hooks/useCreateDashboardMutation"
+import { CreateDashboardModal } from "@/entities/dashboard"
 
 interface ProfileMenuProps {
     isAuth: boolean
@@ -32,14 +33,9 @@ export const ProfileMenu = (props: ProfileMenuProps) => {
 
     const [openModal, setOpenModal] = useState(false)
     const router = useRouter()
-    const ref = useRef<HTMLInputElement | null>(null)
-    const { mutate } = useCreateDashboardMutation()
 
     const handleOpenModal = () => {
         setOpenModal(true)
-    }
-    const handleCloseModal = () => {
-        setOpenModal(false)
     }
 
     const menuItems = useMemo(
@@ -102,29 +98,10 @@ export const ProfileMenu = (props: ProfileMenuProps) => {
                     ))}
                 </List>
             </Menu>
-            <Modal
+            <CreateDashboardModal
                 open={openModal}
-                onClose={handleCloseModal}
-                title='Создание доски'
-            >
-                <TextField
-                    ref={ref}
-                    label='Название доски'
-                    variant='standard'
-                />
-                <IconButton
-                    color='success'
-                    iconVariant='done'
-                    onClick={() => {
-                        const value = ref?.current?.querySelector("input")
-                            ?.value as string
-                        if (!value) return
-                        mutate(value)
-                        handleCloseModal()
-                        handleClose()
-                    }}
-                />
-            </Modal>
+                onClose={() => setOpenModal(false)}
+            />
         </>
     )
 }

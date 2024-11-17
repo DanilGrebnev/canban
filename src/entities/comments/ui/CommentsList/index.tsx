@@ -1,10 +1,7 @@
 import { useGetCommentsQuery } from "@/shared/api/comments"
-import { format } from "@formkit/tempo"
 import { CommentItem } from "../CommentItem"
 import { Collapse } from "@mui/material"
-import { CommentsForm } from "@/entities/comments"
 import { useGetProfileQuery } from "@/shared/api/users"
-import { useEffect } from "react"
 
 interface CommentsListProps {
     todoId: string
@@ -18,34 +15,17 @@ export const CommentsList = (props: CommentsListProps) => {
 
     return (
         <Collapse in={open}>
-            {comments?.map(
-                ({
-                    _id,
-                    authorName,
-                    createdDate,
-                    replyTo,
-                    text,
-                    todoId,
-                    authorId,
-                }) => {
+            <ul>
+                {comments?.map((comment) => {
                     return (
                         <CommentItem
-                            key={_id}
-                            text={text}
-                            date={{
-                                datePublished: format(createdDate, "short"),
-                                timePublished: format(createdDate, {
-                                    time: "short",
-                                }),
-                            }}
-                            author={{
-                                name: authorName,
-                                isOwner: profile?._id === authorId,
-                            }}
+                            owner={profile?._id === comment.authorId}
+                            key={comment._id}
+                            {...comment}
                         />
                     )
-                },
-            )}
+                })}
+            </ul>
         </Collapse>
     )
 }

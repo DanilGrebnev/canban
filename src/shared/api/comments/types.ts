@@ -11,11 +11,15 @@ export interface ICreateCommentsDTO {
 export interface ICommentsDTO {
     _id: string
     todoId: string
-    text: string
     authorName: string
-    replyTo: null
-    createdDate: Date
     authorId: string
+    text: string
+    replyInfo: {
+        authorName: string
+        authorId: string
+        date: Date
+    }
+    createdDate: Date
 }
 
 export type IGetCommentsDTO = ICommentsDTO[]

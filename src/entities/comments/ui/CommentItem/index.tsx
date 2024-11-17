@@ -1,93 +1,57 @@
-import { Avatar, Box, Stack, Typography } from "@mui/material"
-import { FC, memo } from "react"
-import { CommentDetails } from "./CommentDetails"
-import { CommentOwnerAction } from "./CommentOwnerAction"
-import { CommentReplyAction } from "./CommentReplyAction"
-import { format } from "@formkit/tempo"
+import { FC, memo, useEffect } from "react"
 import { useCommentsStore } from "@/shared/store/commentsStore"
+import s from "./comments-item.module.scss"
+import { ICommentsDTO } from "@/shared/api/comments/types"
+import { format } from "@formkit/tempo"
+import Avatar from "@mui/material/Avatar"
+import { ReplyBtn } from "./ReplyBtn"
 
-interface CommentsThreadProps {
-    author: {
-        name: string
-        isOwner: boolean
-    }
-    text: string
-    date: {
-        datePublished: string
-        timePublished: string
-    }
-    color?: string
-    isReply?: boolean
+interface CommentsProps extends ICommentsDTO {
+    owner: boolean
 }
 
-export const CommentItem: FC<CommentsThreadProps> = memo(
-    ({ author, text, date, color, isReply }) => {
-        return (
-            <>
-                <Box
-                    display='flex'
-                    sx={{ mt: 1 }}
-                >
-                    <Avatar
-                        sx={{
-                            width: 30,
-                            height: 30,
-                            backgroundColor: color ?? "",
-                        }}
-                    >
-                        {author.name[0]}
-                    </Avatar>
-                    <Box
-                        ml={2}
-                        flexGrow={1}
-                    >
-                        <Stack direction='row'>
-                            <CommentDetails
-                                author={author.name}
-                                date={date.datePublished}
-                                replyInfo={{
-                                    authorName: "Ivan",
-                                    // date: format(
-                                    //     '',
-                                    //     "full",
-                                    // ),
-                                    date: "08/12/1998",
-                                }}
-                            />
-                            <CommentOwnerAction
-                                owner={author.isOwner}
-                                handleDelete={() => console.log("delete")}
-                                handleEdit={() => console.log("edit")}
-                            />
-                        </Stack>
-                        <Typography
-                            mt={2}
-                            variant='subtitle1'
-                            color='text.primary'
-                        >
-                            {text}
-                        </Typography>
-                        <Stack
-                            direction='row'
-                            alignItems='center'
-                        >
-                            {!author.isOwner && (
-                                <CommentReplyAction replyFn={() => {}} />
-                            )}
-                            <Typography
-                                variant={"caption"}
-                                color={"textDisabled"}
-                                ml={"auto"}
-                                mr={2}
-                            >
-                                {date.timePublished}
-                            </Typography>
-                        </Stack>
-                    </Box>
-                </Box>
-            </>
-        )
-    },
-)
+export const CommentItem: FC<CommentsProps> = memo((props) => {
+    const {
+        todoId,
+        owner,
+        replyInfo,
+        authorName,
+        authorId,
+        text,
+        _id,
+        createdDate,
+    } = props
+
+    const setReplyData = useCommentsStore((s) => s.setReplyData)
+
+    return (
+        <li className={s["comments-container"]}>
+            <div className={s["user-info"]}>
+                <Avatar className={s.avatar} />
+                <p className={s.username}>{authorName}</p>
+                <div className={s.date}>
+                    {format(createdDate, { date: "long" })}
+                </div>
+                {replyInfo && (
+                    <div className={s["reply-content"]}>
+                        в ответ: <p>{replyInfo?.authorName}</p>
+                    </div>
+                )}
+            </div>
+            <div className={s.text}>{text}</div>
+            <footer className={s.footer}>
+                <ReplyBtn
+                    onClick={() =>
+                        setReplyData({ authorId, authorName, replyText: text })
+                    }
+                    owner={owner}
+                />
+                <div className={s.time}>
+                    {format(createdDate, { time: "short" })}
+                </div>
+            </footer>
+        </li>
+    )
+})
 
 CommentItem.displayName = "CommentItem"
