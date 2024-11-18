@@ -6,8 +6,6 @@ import s from "./column.module.scss"
 import Tooltip from "@mui/material/Tooltip"
 import { IconButton } from "@/shared/ui/IconButton"
 import { useEffect, useRef, useState } from "react"
-import { Modal } from "@/shared/ui/Modal"
-import Button from "@mui/material/Button"
 import { useDeleteColumnsMutation } from "@/shared/api/columns"
 import { DeleteBtnWithAccept } from "@/shared/ui/DeleteBtnWithAccept"
 
@@ -26,7 +24,6 @@ export const Column = (props: TColumn) => {
         addToDoAction,
         deleteColumnButton = false,
     } = props
-    const [openDeleteColumnModal, setOpenDeleteColumnModal] = useState(false)
 
     const { mutate } = useDeleteColumnsMutation()
 
@@ -54,12 +51,12 @@ export const Column = (props: TColumn) => {
                             />
                         </Tooltip>
                     )}
-                    {
+                    {deleteColumnButton && (
                         <DeleteBtnWithAccept
                             tooltip2='Удалить колонку'
                             onDelete={() => mutate(columnId)}
                         />
-                    }
+                    )}
                 </div>
             </header>
             <div
