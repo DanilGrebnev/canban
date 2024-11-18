@@ -1,0 +1,17 @@
+.user-info {
+  @apply
+  flex
+  items-center
+  gap-[--gap];
+}
+
+.username {
+  @apply text-200;
+}
+
+.buttons {
+  @apply
+    flex
+    grow
+    justify-end;
+}

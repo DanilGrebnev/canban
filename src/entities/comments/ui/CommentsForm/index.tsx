@@ -1,5 +1,5 @@
 import { CustomIconButton } from "@/shared/ui/CustomIconButton"
-import { CustomTextField, AddCommentBox } from "./MUICustomComponent"
+import { CustomTextField } from "./MUICustomComponent"
 import SendIcon from "@mui/icons-material/Send"
 import { useCreateCommentsMutation } from "@/shared/api/comments"
 import { useForm } from "react-hook-form"
@@ -8,7 +8,7 @@ import { useEffect, useRef, useState } from "react"
 import { useCommentsStore } from "@/shared/store/commentsStore"
 import { ICreateCommentsDTO } from "@/shared/api/comments/types"
 import s from "./comments-form.module.scss"
-import { ReplyInfo } from "@/entities/comments/ui/CommentsForm/ReplyInfo"
+import { ReplyInfo } from "./ReplyInfo"
 import { cn } from "@/shared/lib/clsx"
 
 interface CommentsFormProps {
@@ -82,6 +82,7 @@ export const CommentsForm = (props: CommentsFormProps) => {
                     replyText={replyInfo.replyText}
                 />
             )}
+
             <CustomTextField
                 {...register("text")}
                 multiline

@@ -1,10 +1,15 @@
-import { FC, memo, useEffect } from "react"
+import { FC, memo } from "react"
 import { useCommentsStore } from "@/shared/store/commentsStore"
 import s from "./comments-item.module.scss"
-import { ICommentsDTO } from "@/shared/api/comments/types"
-import { format } from "@formkit/tempo"
-import Avatar from "@mui/material/Avatar"
+import { ICommentsDTO } from "@/shared/api/comments"
 import { ReplyBtn } from "./ReplyBtn"
+import { ReplyInfo } from "./ReplyInfo"
+import { CreatedTime } from "./CreatedTime"
+import { CommentHeader } from "./CommentHeader"
+import IconButton from "@mui/material/IconButton"
+import Pencil from "@mui/icons-material/Create"
+import { DeleteCommentBtn } from "./DeleteCommentBtn"
+import Typography from "@mui/material/Typography"
 
 interface CommentsProps extends ICommentsDTO {
     owner: boolean
@@ -12,43 +17,59 @@ interface CommentsProps extends ICommentsDTO {
 
 export const CommentItem: FC<CommentsProps> = memo((props) => {
     const {
+        _id,
         todoId,
         owner,
         replyInfo,
         authorName,
         authorId,
         text,
-        _id,
         createdDate,
     } = props
 
     const setReplyData = useCommentsStore((s) => s.setReplyData)
 
     return (
-        <li className={s["comments-container"]}>
-            <div className={s["user-info"]}>
-                <Avatar className={s.avatar} />
-                <p className={s.username}>{authorName}</p>
-                <div className={s.date}>
-                    {format(createdDate, { date: "long" })}
-                </div>
-                {replyInfo && (
-                    <div className={s["reply-content"]}>
-                        в ответ: <p>{replyInfo?.authorName}</p>
-                    </div>
-                )}
-            </div>
-            <div className={s.text}>{text}</div>
+        <li className={s.container}>
+            <CommentHeader
+                authorName={authorName}
+                createdDate={createdDate}
+                actionButtons={
+                    owner && (
+                        <>
+                            <IconButton
+                                centerRipple={false}
+                                className='rounded-[5px]'
+                            >
+                                <Pencil />
+                            </IconButton>
+                            <DeleteCommentBtn
+                                todoId={todoId}
+                                commentId={_id}
+                            />
+                        </>
+                    )
+                }
+                replyInfo={<ReplyInfo replyInfo={replyInfo} />}
+            />
+            <Typography component='pre'>{text}</Typography>
+
             <footer className={s.footer}>
                 <ReplyBtn
-                    onClick={() =>
-                        setReplyData({ authorId, authorName, replyText: text })
-                    }
                     owner={owner}
+                    onClick={() =>
+                        setReplyData({
+                            authorId,
+                            authorName,
+                            replyText: text,
+                        })
+                    }
                 />
-                <div className={s.time}>
-                    {format(createdDate, { time: "short" })}
-                </div>
+                <CreatedTime
+                    className={s.time}
+                    date={createdDate}
+                    format={{ time: "short" }}
+                />
             </footer>
         </li>
     )

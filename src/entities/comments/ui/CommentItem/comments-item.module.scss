@@ -1,53 +1,25 @@
-.comments-container {
-    @apply flex
+.container {
+    @apply
+        flex
         flex-col
         gap-[--gap]
         p-[--gap];
 }
 
-.user-info {
-    @apply
-        flex
-        items-center
-        gap-[--gap];
-}
-
-.username {
-    @apply text-200;
-}
-
-.date {
-    @apply text-150
-        text-[--text-color-3];
-}
-
 .time {
-    @apply justify-self-end
-        text-150
-        text-[--text-color-3];
+    @apply
+        justify-self-end
 }
 
 .text {
-    @apply ml-[15px]
+    @apply
+        ml-[15px]
         max-h-[170px]
         overflow-auto;
 }
 
-.avatar {
-    --avatar-size: 30px;
-    @apply
-        h-[--avatar-size]
-        w-[--avatar-size];
-}
-
-.reply-content {
-    @apply
-        flex
-        gap-[--gap]
-        text-[--text-color-3]
-        text-150;
-}
 .footer {
-    @apply grid
+    @apply
+        grid
         grid-cols-2;
 }

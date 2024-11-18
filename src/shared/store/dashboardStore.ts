@@ -14,11 +14,11 @@ export const useDashboardStore = create<DashboardState>()(
         dashboardId: null,
         isOwner: false,
         setDashboardId: (dashboardId: string) =>
-            set((state) => {
+            set((state: DashboardState) => {
                 state.dashboardId = dashboardId
             }),
         setIsOwner: (userProfile: IProfile) =>
-            set((state) => {
+            set((state: DashboardState) => {
                 const currentDashboard = userProfile.dashboardsList.find(
                     ({ dashboardId }) => dashboardId === state.dashboardId,
                 ) as IProfileDashboardListItem

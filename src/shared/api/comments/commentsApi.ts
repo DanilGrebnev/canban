@@ -14,4 +14,9 @@ export const CommentsApi = {
     getComments: (todoId: string) => {
         return commentsApi.get(todoId).json<IGetCommentsDTO>()
     },
+    deleteComments: (commentsId: string) => {
+        return commentsApi
+            .delete(commentsId, { credentials: "include" })
+            .json<ICommentsDTO>()
+    },
 }

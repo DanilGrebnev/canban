@@ -17,7 +17,7 @@ export const useCommentsStore = create<CommentsStore>()(
         (set) =>
             ({
                 replyData: null,
-                setReplyData: (replyData: IReplyData | null) => {
+                setReplyData: (replyData: IReplyData) => {
                     set((state) => {
                         state.replyData = replyData
                     })

@@ -9,6 +9,7 @@ import { useEffect, useRef, useState } from "react"
 import { Modal } from "@/shared/ui/Modal"
 import Button from "@mui/material/Button"
 import { useDeleteColumnsMutation } from "@/shared/api/columns"
+import { DeleteBtnWithAccept } from "@/shared/ui/DeleteBtnWithAccept"
 
 export interface TColumn extends TChildren {
     title: string | number
@@ -53,16 +54,12 @@ export const Column = (props: TColumn) => {
                             />
                         </Tooltip>
                     )}
-                    {deleteColumnButton && (
-                        <Tooltip title='Удалить колонку'>
-                            <IconButton
-                                iconVariant='delete'
-                                onClick={() => {
-                                    setOpenDeleteColumnModal(true)
-                                }}
-                            />
-                        </Tooltip>
-                    )}
+                    {
+                        <DeleteBtnWithAccept
+                            tooltip2='Удалить колонку'
+                            onDelete={() => mutate(columnId)}
+                        />
+                    }
                 </div>
             </header>
             <div
@@ -72,21 +69,6 @@ export const Column = (props: TColumn) => {
             >
                 <div className={s["dashboard-list"]}>{children}</div>
             </div>
-            <Modal
-                title={`Удалить колонку "${title}"? Все задачи данной колонки также будут удалены.`}
-                open={openDeleteColumnModal}
-                onClose={() => setOpenDeleteColumnModal(false)}
-            >
-                <Button
-                    onClick={() => mutate(columnId)}
-                    color='error'
-                >
-                    Удалить
-                </Button>
-                <Button onClick={() => setOpenDeleteColumnModal(false)}>
-                    Отмена
-                </Button>
-            </Modal>
         </Card>
     )
 }
