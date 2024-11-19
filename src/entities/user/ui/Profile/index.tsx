@@ -24,7 +24,7 @@ export const UserProfile = () => {
     return (
         <>
             <div className={s.profile}>
-                <Typography>{profile?.name}</Typography>
+                <Typography className={s.name}>{profile?.name}</Typography>
                 <IconButton
                     size='medium'
                     aria-label='account of current user'
@@ -33,7 +33,10 @@ export const UserProfile = () => {
                     color='inherit'
                     onClick={handleClick}
                 >
-                    <AccountCircle fontSize='large' />
+                    <AccountCircle
+                        sx={{ fill: "var(--secondary-color)" }}
+                        fontSize='large'
+                    />
                 </IconButton>
             </div>
 

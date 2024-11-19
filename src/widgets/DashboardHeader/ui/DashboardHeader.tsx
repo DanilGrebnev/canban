@@ -1,9 +1,7 @@
 "use client"
 
-import AppBar from "@mui/material/AppBar"
-import Box from "@mui/material/Box"
 import Toolbar from "@mui/material/Toolbar"
-import { useEffect, useMemo, useState } from "react"
+import { useMemo, useState } from "react"
 import { UserProfile } from "@/entities/user"
 import IconButton from "@mui/material/IconButton"
 import ViewWeekOutlinedIcon from "@mui/icons-material/ViewWeekOutlined"
@@ -15,6 +13,8 @@ import { JoinUserModal } from "@/widgets/DashboardHeader/ui/JoinUserModal"
 import RecentActorsOutlinedIcon from "@mui/icons-material/RecentActorsOutlined"
 import { ParticipantsModal } from "@/widgets/DashboardHeader/ui/ParticipantsModal"
 import { useDashboardRole } from "@/entities/user"
+import { DeleteDashboardBtn } from "@/entities/dashboard"
+import s from "./dashboard-header.module.scss"
 
 export const DashboardHeader = () => {
     const [openCreateColumnModal, setCreateOpenModal] = useState(false)
@@ -24,10 +24,6 @@ export const DashboardHeader = () => {
     const pathname = usePathname()
     const { isDashboardOwner, userRole } = useDashboardRole()
 
-    useEffect(() => {
-        console.log({ isDashboardOwner })
-    }, [userRole, isDashboardOwner])
-
     const onDashboardPage = useMemo(
         () => pathname.search(/\/dashboard\/\w+/) !== -1,
         [pathname],
@@ -36,8 +32,8 @@ export const DashboardHeader = () => {
     const showDashboardControl = onDashboardPage && isDashboardOwner
 
     return (
-        <Box sx={{ flexGrow: 1 }}>
-            <AppBar position='static'>
+        <>
+            <header className={s.header}>
                 <Toolbar>
                     {showDashboardControl && (
                         <>
@@ -45,16 +41,15 @@ export const DashboardHeader = () => {
                                 <IconButton
                                     onClick={() => setCreateOpenModal(true)}
                                 >
-                                    <ViewWeekOutlinedIcon
-                                        sx={{ fill: "white" }}
-                                    />
+                                    <ViewWeekOutlinedIcon className={s.icons} />
                                 </IconButton>
                             </Tooltip>
                             <Tooltip title='Добавить участника'>
                                 <IconButton onClick={() => openUserModal(true)}>
-                                    <PersonAddAltIcon sx={{ fill: "white" }} />
+                                    <PersonAddAltIcon className={s.icons} />
                                 </IconButton>
                             </Tooltip>
+                            <DeleteDashboardBtn />
                         </>
                     )}
                     {onDashboardPage && (
@@ -64,16 +59,14 @@ export const DashboardHeader = () => {
                                     setOpenParticipantsModal(true)
                                 }}
                             >
-                                <RecentActorsOutlinedIcon
-                                    sx={{ fill: "white" }}
-                                />
+                                <RecentActorsOutlinedIcon className={s.icons} />
                             </IconButton>
                         </Tooltip>
                     )}
                     <div style={{ flexGrow: 1 }}></div>
                     <UserProfile />
                 </Toolbar>
-            </AppBar>
+            </header>
             <JoinUserModal
                 open={isOpenUserModal}
                 onClose={() => openUserModal(false)}
@@ -86,6 +79,6 @@ export const DashboardHeader = () => {
                 open={openParticipantsModal}
                 onClose={() => setOpenParticipantsModal(false)}
             />
-        </Box>
+        </>
     )
 }

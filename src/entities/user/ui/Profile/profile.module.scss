@@ -1,5 +1,9 @@
 .profile{
-  display: flex;
   align-items: center;
+  display: flex;
   gap: var(--gap);
+}
+
+.name{
+  color: var(--text-color-1);
 }

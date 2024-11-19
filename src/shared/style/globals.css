@@ -8,6 +8,7 @@
 }
 
 body, html {
+    background: var(--main-color);
     min-height: 100vh;
 }
 

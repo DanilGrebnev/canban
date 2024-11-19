@@ -1,0 +1,10 @@
+.header {
+  @apply bg-[--main-color];
+  border: 1px solid var(--main-border-color);
+}
+
+.icons {
+  &  * {
+    @apply fill-[--secondary-color];
+  }
+}
