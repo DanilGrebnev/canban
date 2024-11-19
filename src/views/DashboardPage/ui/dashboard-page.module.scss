@@ -1,6 +1,7 @@
 .page {
-  padding: var(--gap);
-  flex-grow: 1;
-  overflow: auto;
-  height: 100%;
+  @apply
+    grow
+    overflow-auto
+    h-[100%]
+    p-[--gap];
 }

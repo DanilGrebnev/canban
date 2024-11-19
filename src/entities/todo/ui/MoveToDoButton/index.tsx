@@ -19,7 +19,7 @@ export const MoveToDoButton = (props: MoveToDoButtonProps) => {
     const open = Boolean(anchorEl)
 
     const { todoId, dashboardId, columnId } = props
-    const { data: columns } = useGetColumnsListQuery({ dashboardId })
+    const { data: columns } = useGetColumnsListQuery(dashboardId || "")
 
     const { mutate } = useMoveTodoToAnotherColumnMutation()
 

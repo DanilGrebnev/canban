@@ -20,7 +20,7 @@ export const ColumnsList = (props: ColumnsListProps) => {
 
     const ref = useRef<HTMLDivElement | null>(null)
 
-    const { data } = useGetColumnsListQuery({ dashboardId })
+    const { data } = useGetColumnsListQuery(dashboardId || "")
 
     return (
         <div

@@ -2,14 +2,10 @@ import { useQuery } from "@tanstack/react-query"
 import { ColumnsApi } from "@/shared/api/columns/columnsApi"
 import { columnsApiKeys } from "@/shared/api/columns/columnsApiKeys"
 
-interface UseGetColumnsListQuery {
-    dashboardId: string | null
-}
-
-export const useGetColumnsListQuery = (args: UseGetColumnsListQuery) => {
+export const useGetColumnsListQuery = (dashboardId: string) => {
     return useQuery({
-        enabled: !!args.dashboardId,
-        queryFn: () => ColumnsApi.getColumnsList(args.dashboardId || ""),
-        queryKey: [columnsApiKeys.columnsList, args.dashboardId],
+        enabled: !!dashboardId,
+        queryFn: () => ColumnsApi.getColumnsList(dashboardId),
+        queryKey: [columnsApiKeys.columnsList, dashboardId],
     })
 }

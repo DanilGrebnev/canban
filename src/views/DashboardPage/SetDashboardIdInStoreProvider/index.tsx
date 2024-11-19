@@ -16,6 +16,7 @@ export const SetDashboardIdInStoreProvider = ({
     useEffect(() => {
         if (!dashboardId) return
         setDashboardId(dashboardId)
+        return () => setDashboardId(null)
     }, [dashboardId])
 
     return children

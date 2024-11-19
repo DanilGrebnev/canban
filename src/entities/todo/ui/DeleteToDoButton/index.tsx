@@ -8,9 +8,10 @@ import { useRemoveTodoMutation } from "@/shared/api/todo/hooks/useRemoveTodoMuta
 
 interface DeleteToDoButton {
     todoId: string
+    columnId: string
 }
 
-export const DeleteToDoButton = ({ todoId }: DeleteToDoButton) => {
+export const DeleteToDoButton = ({ todoId, columnId }: DeleteToDoButton) => {
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
     const open = Boolean(anchorEl)
 
@@ -41,7 +42,7 @@ export const DeleteToDoButton = ({ todoId }: DeleteToDoButton) => {
                     color='error'
                     variant='text'
                     onClick={() => {
-                        mutate(todoId)
+                        mutate({ todoId, columnId })
                         handleClose()
                     }}
                 >

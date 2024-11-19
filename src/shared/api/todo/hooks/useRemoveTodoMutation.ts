@@ -6,10 +6,11 @@ export const useRemoveTodoMutation = () => {
     const client = useQueryClient()
 
     return useMutation({
-        mutationFn: TodoApi.removeTodo,
-        onSuccess: (removedTodo) => {
+        mutationFn: (query: { todoId: string; columnId: string }) =>
+            TodoApi.removeTodo(query.todoId),
+        onSuccess: (removedTodo, query) => {
             client.invalidateQueries({
-                queryKey: [todosApiKey.todoList, removedTodo.columnId],
+                queryKey: [todosApiKey.todoList, query.columnId],
             })
         },
     })

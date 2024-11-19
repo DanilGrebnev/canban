@@ -5,7 +5,7 @@ import { immer } from "zustand/middleware/immer"
 interface DashboardState {
     dashboardId: string | null
     isOwner: boolean
-    setDashboardId: (dashboardId: string) => any
+    setDashboardId: (dashboardId: string | null) => any
     setIsOwner: (userProfile: IProfile) => any
 }
 
@@ -13,7 +13,7 @@ export const useDashboardStore = create<DashboardState>()(
     immer((set) => ({
         dashboardId: null,
         isOwner: false,
-        setDashboardId: (dashboardId: string) =>
+        setDashboardId: (dashboardId) =>
             set((state: DashboardState) => {
                 state.dashboardId = dashboardId
             }),

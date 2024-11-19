@@ -64,7 +64,10 @@ export const ToDoCard = (props: TDashboardItem) => {
                     className={s["control-panel"]}
                 >
                     <ChangeToDoButton />
-                    <DeleteToDoButton todoId={todoId} />
+                    <DeleteToDoButton
+                        columnId={columnId}
+                        todoId={todoId}
+                    />
                     <MoveToDoButton
                         columnId={columnId}
                         dashboardId={dashboardId}

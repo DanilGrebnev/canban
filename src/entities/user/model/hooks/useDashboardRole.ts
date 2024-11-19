@@ -1,3 +1,5 @@
+"use client"
+
 import { useGetProfileQuery } from "@/shared/api/users"
 import { useDashboardStore } from "@/shared/store/dashboardStore"
 import { useMemo } from "react"
@@ -14,10 +16,11 @@ export const useDashboardRole = () => {
             profile?.dashboardsList.find(
                 (dashboard) => dashboard.dashboardId === dashboardId,
             ) as IProfileDashboardListItem,
-        [dashboardId, profile],
+        [dashboardId, profile?.dashboardsList],
     )
 
     const isDashboardOwner = currentDashboard?.role === "owner"
+
     const userRole = currentDashboard?.role
     return { isDashboardOwner, userRole, isPending, profileId: profile?._id }
 }

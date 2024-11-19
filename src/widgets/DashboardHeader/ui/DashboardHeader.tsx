@@ -3,7 +3,7 @@
 import AppBar from "@mui/material/AppBar"
 import Box from "@mui/material/Box"
 import Toolbar from "@mui/material/Toolbar"
-import { useMemo, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { UserProfile } from "@/entities/user"
 import IconButton from "@mui/material/IconButton"
 import ViewWeekOutlinedIcon from "@mui/icons-material/ViewWeekOutlined"
@@ -22,8 +22,11 @@ export const DashboardHeader = () => {
     const [openParticipantsModal, setOpenParticipantsModal] = useState(false)
 
     const pathname = usePathname()
+    const { isDashboardOwner, userRole } = useDashboardRole()
 
-    const { isDashboardOwner } = useDashboardRole()
+    useEffect(() => {
+        console.log({ isDashboardOwner })
+    }, [userRole, isDashboardOwner])
 
     const onDashboardPage = useMemo(
         () => pathname.search(/\/dashboard\/\w+/) !== -1,
