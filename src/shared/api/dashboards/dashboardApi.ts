@@ -22,6 +22,8 @@ export const dashboardApi = {
             })
             .json(),
     getDashboardDetail: (dashboardId: string) => {
-        return dashboardsApi.get(dashboardId).json<IDashboardsDTO>()
+        return dashboardsApi
+            .get(dashboardId, { credentials: "include" })
+            .json<IDashboardsDTO>()
     },
 }
