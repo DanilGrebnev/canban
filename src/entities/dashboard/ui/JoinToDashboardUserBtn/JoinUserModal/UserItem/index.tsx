@@ -1,8 +1,6 @@
-import s from "@/widgets/DashboardHeader/ui/JoinUserModal/s.module.scss"
 import Typography from "@mui/material/Typography"
-import Button from "@mui/material/Button"
 import { Card } from "@mui/material"
-import { useJoinUserToDashboardMutation } from "@/shared/api/users/hooks/useJoinUserToDashboardMutation"
+import { useJoinUserToDashboardMutation } from "@/shared/api/users"
 import PersonAddAltOutlinedIcon from "@mui/icons-material/PersonAddAltOutlined"
 import IconButton from "@mui/material/IconButton"
 import CircularProgress from "@mui/material/CircularProgress"
@@ -16,17 +14,16 @@ interface UserItem {
 
 export const UserItem = (props: UserItem) => {
     const { userId, userName, dashboardId, participants } = props
-    const {
-        mutate: joinUserMutate,
-        isPending,
-        isSuccess,
-    } = useJoinUserToDashboardMutation()
+    const { mutate: joinUserMutate, isPending } =
+        useJoinUserToDashboardMutation()
 
     return (
         <Card
             elevation={1}
-            className={s.user}
             key={userId}
+            className={
+                "flex gap-[--gap] p-[--gap] justify-between items-center"
+            }
         >
             <Typography>{userName}</Typography>
             {participants ? (

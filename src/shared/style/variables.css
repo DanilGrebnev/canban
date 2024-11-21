@@ -11,7 +11,10 @@
     --secondary-color: white;
     --main-border-color: #fff3;
 
-    --icon-color:white;
+    --icon-main-color:white;
+    --icon-main-inversion-color: black;
+    --icon-secondary-color:rgba(0 0 0 / 54%);
+    --icons-hover-color: yellow;
 
     --text-color-1: white;
     --text-color-2: black;

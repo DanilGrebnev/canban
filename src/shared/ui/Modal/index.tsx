@@ -2,6 +2,7 @@ import Dialog from "@mui/material/Dialog"
 import DialogTitle from "@mui/material/DialogTitle"
 import { DialogContent } from "@mui/material"
 import { ReactNode } from "react"
+import { Card } from "@/shared/ui/Card"
 
 interface TChangeDashboardTaskInfoModal {
     open: boolean
@@ -35,7 +36,7 @@ export const Modal = (props: TChangeDashboardTaskInfoModal) => {
             onClose={onClose}
         >
             {title && <DialogTitle>{title}</DialogTitle>}
-            <DialogContent className={className}>{children}</DialogContent>
+            <Card>{children}</Card>
         </Dialog>
     )
 }

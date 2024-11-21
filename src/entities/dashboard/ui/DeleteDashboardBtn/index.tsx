@@ -33,7 +33,7 @@ export const DeleteDashboardBtn = () => {
     return (
         <>
             <IconButton onClick={() => setOpen(true)}>
-                <DeleteIcon sx={{ fill: "white" }} />
+                <DeleteIcon sx={{ fill: "var(--icon-secondary-color)" }} />
             </IconButton>
             <Modal
                 open={open}

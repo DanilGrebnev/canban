@@ -3,10 +3,13 @@ import { IconButton as MUIIconButton } from "@mui/material"
 import Tooltip from "@mui/material/Tooltip"
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined"
 import DriveFileRenameOutlineOutlinedIcon from "@mui/icons-material/DriveFileRenameOutlineOutlined"
-import { ReactElement, ReactNode } from "react"
 import AccountCircle from "@mui/icons-material/AccountCircle"
 import AddBoxOutlinedIcon from "@mui/icons-material/AddBoxOutlined"
+import MenuIcon from "@mui/icons-material/Menu"
+import ViewWeekOutlinedIcon from "@mui/icons-material/ViewWeekOutlined"
 import CheckIcon from "@mui/icons-material/Check"
+import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt"
+import PeopleList from "@mui/icons-material/RecentActorsOutlined"
 
 type TMUIIconButton = Parameters<typeof MUIIconButton>[0]
 
@@ -19,11 +22,16 @@ const icons = {
     people: AccountCircle,
     addBox: AddBoxOutlinedIcon,
     done: CheckIcon,
+    menu: MenuIcon,
+    table: ViewWeekOutlinedIcon,
+    addPerson: PersonAddAltIcon,
+    peopleList: PeopleList,
 }
 
 type TIconButton = {
     tooltip?: string
     iconVariant: keyof typeof icons
+    iconFill?: string
 } & TMUIIconButton &
     MUISVGType
 /*
@@ -31,6 +39,8 @@ type TIconButton = {
  * @example
  * <IconButton
  *   iconVariant='delete'
+ *   // Заливка иконки (любая строка с цветом. Не работет, если указано значение color)
+ *   iconFill='black'
  *   color='error'
  *  />
  */
@@ -39,6 +49,7 @@ export const IconButton = (props: TIconButton) => {
         tooltip,
         color,
         fontSize = "medium",
+        iconFill,
         iconVariant,
         ...otherProps
     } = props
@@ -47,7 +58,7 @@ export const IconButton = (props: TIconButton) => {
     Icon = icons[iconVariant]
 
     return (
-        <ToolTip tooltip={tooltip}>
+        <Tooltip title={tooltip}>
             <MUIIconButton
                 type='button'
                 {...otherProps}
@@ -55,22 +66,9 @@ export const IconButton = (props: TIconButton) => {
                 <Icon
                     fontSize={fontSize}
                     color={color}
+                    sx={{ fill: iconFill }}
                 />
             </MUIIconButton>
-        </ToolTip>
-    )
-}
-
-function ToolTip({
-    children,
-    tooltip,
-}: {
-    tooltip?: string
-    children: ReactElement<unknown, any>
-}) {
-    return tooltip ? (
-        <Tooltip title={tooltip}>{children}</Tooltip>
-    ) : (
-        <>{children}</>
+        </Tooltip>
     )
 }

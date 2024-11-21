@@ -8,6 +8,7 @@ interface TMenu {
     children?: ReactNode
     elevation?: number
     style?: CSSProperties
+    className?: string
 }
 
 /*
@@ -49,10 +50,19 @@ interface TMenu {
  *   }
  * */
 export const Menu = (props: TMenu) => {
-    const { open, anchorEl, handleClose, children, elevation, style } = props
+    const {
+        open,
+        anchorEl,
+        className,
+        handleClose,
+        children,
+        elevation,
+        style,
+    } = props
 
     return (
         <MUIMenu
+            className={className}
             id='basic-menu'
             anchorEl={anchorEl}
             open={open}

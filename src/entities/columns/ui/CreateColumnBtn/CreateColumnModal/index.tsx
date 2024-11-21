@@ -1,7 +1,7 @@
 import { Alert, TextField } from "@mui/material"
 import { IconButton as UIIconButton } from "@/shared/ui/IconButton"
 import { Modal } from "@/shared/ui/Modal"
-import { useCreateColumnMutation } from "@/shared/api/columns/hooks/useCreateColumnMutation"
+import { useCreateColumnMutation } from "@/shared/api/columns"
 import { useForm } from "react-hook-form"
 import { useDashboardStore } from "@/shared/store/dashboardStore"
 import { useEffect } from "react"
