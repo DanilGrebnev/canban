@@ -6,7 +6,10 @@ import { useEffect, useState } from "react"
 import { Modal } from "@/shared/ui/Modal"
 import { TextField } from "@mui/material"
 import Typography from "@mui/material/Typography"
-import { useGetDashboardsDetailQuery } from "@/shared/api/dashboards"
+import {
+    useDeleteDashboardMutation,
+    useGetDashboardsDetailQuery,
+} from "@/shared/api/dashboards"
 import { useForm } from "react-hook-form"
 import Button from "@mui/material/Button"
 
@@ -19,15 +22,17 @@ export const DeleteDashboardBtn = () => {
         setValue,
         formState: { errors },
     } = useForm<{ dashboardName: string }>({ mode: "all" })
+
     const { data: dashboardData } = useGetDashboardsDetailQuery()
+    const { mutate, isPending, isSuccess } = useDeleteDashboardMutation()
 
     useEffect(() => {
         trigger("dashboardName")
         return () => setValue("dashboardName", "")
     }, [open])
 
-    const onSubmit = handleSubmit((data) => {
-        // mutate()
+    const onSubmit = handleSubmit(() => {
+        mutate(dashboardData?._id as string)
     })
 
     return (
@@ -59,7 +64,9 @@ export const DeleteDashboardBtn = () => {
                         variant='standard'
                     />
                     <Button
-                        disabled={!!errors.dashboardName}
+                        disabled={
+                            !!errors.dashboardName || isPending || isSuccess
+                        }
                         onClick={onSubmit}
                         color='error'
                     >

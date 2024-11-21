@@ -6,3 +6,30 @@
     gap-[--gap];
 }
 
+.wrapper {
+  @apply flex justify-center items-center h-full;
+}
+
+.create-dashboard {
+  @apply w-[200px] h-[200px]
+    flex
+    flex-col
+    gap-[--gap]
+    rounded-[--gap]
+    justify-center
+    items-center
+    text-[--icon-secondary-color]
+    border
+    border-solid
+    border-[var(--icon-secondary-color)]
+    duration-[0.3s]
+    cursor-pointer;
+  transition-property: border-color;
+
+  &:hover {
+    @apply border-[2px] border-[blue] text-[blue];
+    & svg {
+      fill:blue;
+    }
+  }
+}

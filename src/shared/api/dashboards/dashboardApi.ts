@@ -26,4 +26,10 @@ export const dashboardApi = {
             .get(dashboardId, { credentials: "include" })
             .json<IDashboardsDTO>()
     },
+
+    deleteDashboard: (dashboardId: string) => {
+        return dashboardsApi
+            .delete(dashboardId, { credentials: "include" })
+            .json<IDashboardsDTO>()
+    },
 }
