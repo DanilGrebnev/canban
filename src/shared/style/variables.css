@@ -7,9 +7,11 @@
     --font-200: 16px;
 
     /* Colors */
-    --main-color: black;
+    --main-color: blue;
     --secondary-color: white;
     --main-border-color: #fff3;
+
+    --icon-color:white;
 
     --text-color-1: white;
     --text-color-2: black;

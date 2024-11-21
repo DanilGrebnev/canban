@@ -5,3 +5,10 @@ export interface TDashboardsListItem {
     participants: string[]
     _id: string
 }
+
+export interface IDashboardsDTO {
+    _id: string
+    createdDate: Date
+    participants: string[]
+    dashboardName: string
+}

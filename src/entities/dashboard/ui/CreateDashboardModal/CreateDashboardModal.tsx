@@ -3,7 +3,7 @@
 import { TextField } from "@mui/material"
 import { IconButton } from "@/shared/ui/IconButton"
 import { Modal } from "@/shared/ui/Modal"
-import { useCreateDashboardMutation } from "@/shared/api/dashboards/hooks/useCreateDashboardMutation"
+import { useCreateDashboardMutation } from "@/shared/api/dashboards"
 import { useForm } from "react-hook-form"
 import { useEffect } from "react"
 

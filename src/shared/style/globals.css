@@ -8,7 +8,7 @@
 }
 
 body, html {
-    background: var(--main-color);
+    background: var(--secondary-color);
     min-height: 100vh;
 }
 

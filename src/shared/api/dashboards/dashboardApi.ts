@@ -1,5 +1,8 @@
 import { api } from "@/shared/api/api-instance"
-import { type TDashboardsListItem } from "@/shared/types/dashboards"
+import {
+    IDashboardsDTO,
+    type TDashboardsListItem,
+} from "@/shared/types/dashboards"
 
 const dashboardsApi = api.extend(({ prefixUrl }) => ({
     prefixUrl: prefixUrl + "/dashboards",
@@ -18,4 +21,7 @@ export const dashboardApi = {
                 credentials: "include",
             })
             .json(),
+    getDashboardDetail: (dashboardId: string) => {
+        return dashboardsApi.get(dashboardId).json<IDashboardsDTO>()
+    },
 }

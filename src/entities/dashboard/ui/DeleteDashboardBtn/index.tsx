@@ -2,15 +2,33 @@
 
 import DeleteIcon from "@mui/icons-material/DeleteOutlineOutlined"
 import IconButton from "@mui/material/IconButton"
-import { useDashboardStore } from "@/shared/store/dashboardStore"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Modal } from "@/shared/ui/Modal"
 import { TextField } from "@mui/material"
 import Typography from "@mui/material/Typography"
+import { useGetDashboardsDetailQuery } from "@/shared/api/dashboards"
+import { useForm } from "react-hook-form"
+import Button from "@mui/material/Button"
 
 export const DeleteDashboardBtn = () => {
     const [open, setOpen] = useState(false)
-    const dashboardId = useDashboardStore((s) => s.dashboardId)
+    const {
+        register,
+        handleSubmit,
+        trigger,
+        setValue,
+        formState: { errors },
+    } = useForm<{ dashboardName: string }>({ mode: "all" })
+    const { data: dashboardData } = useGetDashboardsDetailQuery()
+
+    useEffect(() => {
+        trigger("dashboardName")
+        return () => setValue("dashboardName", "")
+    }, [open])
+
+    const onSubmit = handleSubmit((data) => {
+        // mutate()
+    })
 
     return (
         <>
@@ -25,9 +43,29 @@ export const DeleteDashboardBtn = () => {
                     variant='body2'
                     component='div'
                 >
-                    Для удаления доски введите её название
+                    Для удаления доски введите
+                    <div className={"flex justify-center text-[red] text-200"}>
+                        "<b>{dashboardData?.dashboardName}</b>"
+                    </div>
                 </Typography>
-                <TextField variant='standard' />
+                <div className={"flex flex-col"}>
+                    <TextField
+                        {...register("dashboardName", {
+                            required: true,
+                            pattern: new RegExp(
+                                dashboardData?.dashboardName as string,
+                            ),
+                        })}
+                        variant='standard'
+                    />
+                    <Button
+                        disabled={!!errors.dashboardName}
+                        onClick={onSubmit}
+                        color='error'
+                    >
+                        Удалить
+                    </Button>
+                </div>
             </Modal>
         </>
     )
