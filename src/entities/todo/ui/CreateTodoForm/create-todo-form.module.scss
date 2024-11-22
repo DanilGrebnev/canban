@@ -1,0 +1,7 @@
+.form {
+  @apply
+  flex
+  flex-col
+    gap-[--gap]
+    min-w-[600px];
+}

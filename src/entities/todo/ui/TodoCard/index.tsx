@@ -65,7 +65,7 @@ export const TodoCard = (props: TDashboardItem) => {
                 onClick={(e) => e.stopPropagation()}
                 className={s["control-panel"]}
             >
-                <ChangeToDoButton />
+                <ChangeToDoButton todoId={todoId} />
                 <DeleteToDoButton
                     columnId={columnId}
                     todoId={todoId}

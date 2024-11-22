@@ -2,7 +2,7 @@
 
 import { IconButton } from "@/shared/ui/IconButton"
 import { useState } from "react"
-import { AddTodoModal } from "../AddTodoModal"
+import { CreateTodoModal } from "../CreateTodoModal"
 
 interface AddTodoButtonProps {
     columnId: string
@@ -19,7 +19,7 @@ export const AddTodoButton = (props: AddTodoButtonProps) => {
                 iconVariant='addBox'
                 onClick={() => setOpenModal(true)}
             />
-            <AddTodoModal
+            <CreateTodoModal
                 open={openModal}
                 onClose={() => setOpenModal(false)}
                 columnId={columnId}

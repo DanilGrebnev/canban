@@ -3,7 +3,7 @@ import { TodoApi } from "@/shared/api/todo/todoApi"
 import { todosApiKey } from "@/shared/api/todo/todosApiKey"
 
 interface TOptions {
-    enabled: boolean
+    enabled?: boolean
     todoId: string
 }
 
