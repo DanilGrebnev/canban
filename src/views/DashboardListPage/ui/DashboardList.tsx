@@ -6,6 +6,7 @@ import Typography from "@mui/material/Typography"
 import s from "./dashboard-list.module.scss"
 import Tooltip from "@mui/material/Tooltip"
 import { useState } from "react"
+import AddIcon from "@mui/icons-material/Add"
 
 export const DashboardList = () => {
     const { data } = useGetDashboardsListQuery()
@@ -17,13 +18,15 @@ export const DashboardList = () => {
                 <div className={s.wrapper}>
                     <Tooltip
                         followCursor={true}
-                        title='Создать доску'
+                        title='Создать рабочую область'
                     >
                         <div
                             onClick={() => setOpen(true)}
                             className={s["create-dashboard"]}
                         >
-                            <Typography>Создать доску</Typography>
+                            <AddIcon
+                                sx={{ fill: "var(--icon-secondary-color)" }}
+                            />
                         </div>
                     </Tooltip>
                 </div>

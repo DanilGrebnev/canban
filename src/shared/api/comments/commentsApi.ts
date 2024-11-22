@@ -11,6 +11,9 @@ export const CommentsApi = {
             .post("", { json: data, credentials: "include" })
             .json<ICommentsDTO>()
     },
+    getDetailComment: (commentId: string) => {
+        return commentsApi.get("/detail/" + commentId).json()
+    },
     getComments: (todoId: string) => {
         return commentsApi.get(todoId).json<IGetCommentsDTO>()
     },

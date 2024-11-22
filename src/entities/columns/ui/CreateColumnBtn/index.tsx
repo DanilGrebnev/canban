@@ -2,7 +2,7 @@
 
 import { IconButton } from "@/shared/ui/IconButton"
 import { useState } from "react"
-import { CreateColumnModal } from "./CreateColumnModal"
+import { CreateColumnModal } from "../CreateColumnModal"
 
 export const CreateColumnBtn = () => {
     const [openCreateColumnModal, setCreateOpenModal] = useState(false)
@@ -10,6 +10,7 @@ export const CreateColumnBtn = () => {
     return (
         <>
             <IconButton
+                disableRipple={true}
                 iconVariant='table'
                 iconFill='var(--icon-secondary-color)'
                 onClick={() => setCreateOpenModal(true)}

@@ -1,7 +1,8 @@
 "use client"
 
 import DeleteIcon from "@mui/icons-material/DeleteOutlineOutlined"
-import IconButton from "@mui/material/IconButton"
+import { IconButton } from "@/shared/ui/IconButton"
+
 import { useEffect, useState } from "react"
 import { Modal } from "@/shared/ui/Modal"
 import { TextField } from "@mui/material"
@@ -37,9 +38,12 @@ export const DeleteDashboardBtn = () => {
 
     return (
         <>
-            <IconButton onClick={() => setOpen(true)}>
-                <DeleteIcon sx={{ fill: "var(--icon-secondary-color)" }} />
-            </IconButton>
+            <IconButton
+                disableRipple={true}
+                iconFill='var(--icon-secondary-color)'
+                iconVariant='delete'
+                onClick={() => setOpen(true)}
+            />
             <Modal
                 open={open}
                 onClose={() => setOpen(false)}
@@ -48,7 +52,7 @@ export const DeleteDashboardBtn = () => {
                     variant='body2'
                     component='div'
                 >
-                    Для удаления доски введите
+                    Для удаления рабочей области введите её название:
                     <div className={"flex justify-center text-[red] text-200"}>
                         "<b>{dashboardData?.dashboardName}</b>"
                     </div>

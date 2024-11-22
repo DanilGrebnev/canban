@@ -1,12 +1,12 @@
 import { FC, memo } from "react"
-import { useCommentsStore } from "@/shared/store/commentsStore"
+import { useCommentsStore, useSetReplyData } from "@/shared/store/commentsStore"
 import s from "./comments-item.module.scss"
 import { ICommentsDTO } from "@/shared/api/comments"
 import { ReplyBtn } from "./ReplyBtn"
 import { ReplyInfo } from "./ReplyInfo"
 import { CreatedTime } from "./CreatedTime"
 import { CommentHeader } from "./CommentHeader"
-import IconButton from "@mui/material/IconButton"
+import { IconButton } from "@/shared/ui/IconButton"
 import Pencil from "@mui/icons-material/Create"
 import { DeleteCommentBtn } from "./DeleteCommentBtn"
 import Typography from "@mui/material/Typography"
@@ -27,7 +27,7 @@ export const CommentItem: FC<CommentsProps> = memo((props) => {
         createdDate,
     } = props
 
-    const setReplyData = useCommentsStore((s) => s.setReplyData)
+    const setReplyData = useSetReplyData()
 
     return (
         <li className={s.container}>
@@ -38,11 +38,9 @@ export const CommentItem: FC<CommentsProps> = memo((props) => {
                     owner && (
                         <>
                             <IconButton
-                                centerRipple={false}
+                                iconVariant='pencil'
                                 className='rounded-[5px]'
-                            >
-                                <Pencil />
-                            </IconButton>
+                            />
                             <DeleteCommentBtn
                                 todoId={todoId}
                                 commentId={_id}

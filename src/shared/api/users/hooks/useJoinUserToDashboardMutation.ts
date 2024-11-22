@@ -9,6 +9,9 @@ export const useJoinUserToDashboardMutation = () => {
         mutationFn: UsersApi.joinToDashboard,
         onSuccess: async () => {
             await client.invalidateQueries({
+                queryKey: [usersApiKeys.participants],
+            })
+            await client.invalidateQueries({
                 queryKey: [usersApiKeys.searchUser],
             })
         },

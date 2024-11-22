@@ -7,21 +7,23 @@ import s from "./todo-detail.module.scss"
 import { ToDoInfo } from "./ToDoInfo"
 import { CommentsForm, CommentsList } from "@/entities/comments"
 import { useGetProfileQuery } from "@/shared/api/users"
+import {
+    setIsOpenTodoDetailModal,
+    useGetIsOpenTodoDetailModal,
+    useGetTodoId,
+} from "@/shared/store/todoStore"
 
-interface ToDoDetailModal {
-    open: boolean
-    onClose: () => void
-    todoId?: string
-}
-
-export const ToDoDetailModal = (props: ToDoDetailModal) => {
-    const { open, todoId, onClose } = props
+export const ToDoDetailModal = () => {
     const [openComments, setCommentOpen] = useState(false)
     const [collapsedCommentForm, setCollapsedCommentForm] = useState(false)
 
+    const open = useGetIsOpenTodoDetailModal()
+    const todoId = useGetTodoId()
+    const toggleIsOpenModalTodo = setIsOpenTodoDetailModal()
+
     const { data: todoData } = useGetTodoDetailQuery({
-        enabled: open,
-        todoId: todoId || "",
+        enabled: open && !!todoId,
+        todoId,
     })
     const { data: profile } = useGetProfileQuery()
 
@@ -32,7 +34,7 @@ export const ToDoDetailModal = (props: ToDoDetailModal) => {
             open={open}
             className={s.card}
             onClose={() => {
-                onClose()
+                toggleIsOpenModalTodo(false)
             }}
         >
             <div className={s.todo}>
@@ -49,10 +51,10 @@ export const ToDoDetailModal = (props: ToDoDetailModal) => {
             </div>
             <CommentsList
                 open={openComments}
-                todoId={todoId || ""}
+                todoId={todoId}
             />
             <CommentsForm
-                todoId={todoId || ""}
+                todoId={todoId}
                 collapsed={collapsedCommentForm}
                 setCollapsed={(value: boolean) =>
                     setCollapsedCommentForm(value)

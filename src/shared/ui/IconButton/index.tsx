@@ -50,6 +50,7 @@ export const IconButton = (props: TIconButton) => {
         color,
         fontSize = "medium",
         iconFill,
+        centerRipple = false,
         iconVariant,
         ...otherProps
     } = props
@@ -60,6 +61,7 @@ export const IconButton = (props: TIconButton) => {
     return (
         <Tooltip title={tooltip}>
             <MUIIconButton
+                centerRipple={centerRipple}
                 type='button'
                 {...otherProps}
             >

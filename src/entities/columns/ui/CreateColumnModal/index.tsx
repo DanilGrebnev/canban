@@ -29,16 +29,21 @@ export const CreateColumnModal = ({ onClose, open }: ICreateColumnModal) => {
         <Modal
             open={open}
             onClose={onClose}
-            title='Создание колонки'
+            title='Создание группы'
         >
-            <form onSubmit={onSubmit}>
-                <TextField {...register("columnName")} />
-                <UIIconButton
-                    type='submit'
-                    iconVariant='done'
-                />
-            </form>
-            {isError && <Alert severity='error'>Ошибка создание колонки</Alert>}
+            <TextField
+                variant='standard'
+                label='Введите название группы'
+                {...register("columnName", {
+                    required: true,
+                })}
+            />
+            <UIIconButton
+                onClick={onSubmit}
+                type='submit'
+                iconVariant='done'
+            />
+            {isError && <Alert severity='error'>Ошибка создания группы</Alert>}
         </Modal>
     )
 }

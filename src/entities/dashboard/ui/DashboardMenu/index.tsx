@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { ReactNode, useState } from "react"
 import { IconButton } from "@/shared/ui/IconButton"
 import { Menu } from "@/shared/ui/Menu"
 import { CreateColumnBtn } from "@/entities/columns"
@@ -7,6 +7,7 @@ import {
     JoinToDashboardUserBtn,
     ShowDashboardParticipantsBtn,
 } from "@/entities/dashboard"
+import MUIMenuItem from "@mui/material/MenuItem"
 
 interface DashboardMenuProps {
     showDashboardControl: boolean
@@ -39,13 +40,34 @@ export const DashboardMenu = (props: DashboardMenuProps) => {
             >
                 {showDashboardControl && (
                     <div className={"flex flex-col"}>
-                        <CreateColumnBtn />
-                        <JoinToDashboardUserBtn />
-                        <DeleteDashboardBtn />
+                        <MenuItem label='Создать группу'>
+                            <CreateColumnBtn />
+                        </MenuItem>
+                        <MenuItem label='Добавить участника'>
+                            <JoinToDashboardUserBtn />
+                        </MenuItem>
+                        <MenuItem label='Удалить рабочую область'>
+                            <DeleteDashboardBtn />
+                        </MenuItem>
                     </div>
                 )}
-                <ShowDashboardParticipantsBtn />
+                <MenuItem label='Посмотреть участников'>
+                    <ShowDashboardParticipantsBtn />
+                </MenuItem>
             </Menu>
         </>
+    )
+}
+
+function MenuItem(props: { label: string; children: ReactNode }) {
+    const { label, children } = props
+    return (
+        <MUIMenuItem
+            component='label'
+            className={"flex gap-[--gap]"}
+        >
+            {children}
+            <p>{label}</p>
+        </MUIMenuItem>
     )
 }

@@ -7,11 +7,11 @@
 }
 
 .wrapper {
-  @apply flex justify-center items-center h-full;
+  @apply flex h-full m-[20px];
 }
 
 .create-dashboard {
-  @apply w-[200px] h-[200px]
+  @apply w-[100px] h-[100px]
     flex
     flex-col
     gap-[--gap]

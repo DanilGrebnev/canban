@@ -8,7 +8,7 @@ export const ShowDashboardParticipantsBtn = () => {
     return (
         <>
             <IconButton
-                tooltip='Посмотреть участников'
+                disableRipple={true}
                 iconVariant='peopleList'
                 iconFill='var(--icon-secondary-color)'
                 onClick={() => {

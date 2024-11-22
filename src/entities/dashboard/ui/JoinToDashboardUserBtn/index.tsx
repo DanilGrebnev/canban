@@ -10,7 +10,7 @@ export const JoinToDashboardUserBtn = () => {
     return (
         <>
             <IconButton
-                tooltip='Добавить участника'
+                disableRipple={true}
                 iconVariant='addPerson'
                 iconFill='var(--icon-secondary-color)'
                 onClick={() => setOpenJoinUserModal(true)}

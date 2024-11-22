@@ -15,10 +15,7 @@ import {
     ListItemText,
     TextField,
 } from "@mui/material"
-import { Modal } from "@/shared/ui/Modal"
-import { useMemo, useRef, useState } from "react"
-import { IconButton } from "@/shared/ui/IconButton"
-import { useCreateDashboardMutation } from "@/shared/api/dashboards/hooks/useCreateDashboardMutation"
+import { useMemo, useState } from "react"
 import { CreateDashboardModal } from "@/entities/dashboard"
 
 interface ProfileMenuProps {
@@ -46,12 +43,12 @@ export const ProfileMenu = (props: ProfileMenuProps) => {
             },
             {
                 Icon: GridViewOutlinedIcon,
-                text: "Доски",
+                text: "Мои области",
                 onClick: () => router.push(routes.dashboardList),
             },
             {
                 Icon: DashboardCustomizeOutlinedIcon,
-                text: "Создать доску",
+                text: "Создать рабочую область",
                 onClick: handleOpenModal,
             },
         ],

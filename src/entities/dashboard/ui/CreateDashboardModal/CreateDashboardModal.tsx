@@ -38,7 +38,7 @@ export const CreateDashboardModal = (props: CreateDashboardModalProps) => {
         <Modal
             open={open}
             onClose={onClose}
-            title='Создание доски'
+            title='Создание рабочей области'
         >
             <form onSubmit={onSubmit}>
                 <TextField
@@ -47,7 +47,7 @@ export const CreateDashboardModal = (props: CreateDashboardModalProps) => {
                     })}
                     error={!!errors.dashboardName}
                     helperText={errors.dashboardName?.message}
-                    label='Название доски'
+                    label='Название'
                     variant='standard'
                 />
                 <IconButton
