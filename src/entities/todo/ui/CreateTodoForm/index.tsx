@@ -2,25 +2,39 @@ import { useForm, Controller } from "react-hook-form"
 import { Button, TextField } from "@mui/material"
 import { ICreateTodoDTO } from "@/shared/api/todo"
 import { TodoPriority } from "@/shared/types/todos"
-import { PriorityRadioGroup } from "@/entities/todo/ui/CreateTodoForm/PriorityRadioGroup"
+import { PriorityRadioGroup } from "./PriorityRadioGroup"
 import s from "./create-todo-form.module.scss"
+import { useEffect } from "react"
+
+type IData = Omit<ICreateTodoDTO, "columnId">
 
 interface CreateTodoFormProps {
-    onSubmit: (data: Omit<ICreateTodoDTO, "columnId">) => void
+    onSubmit: (data: IData) => void
+    initialData?: any
 }
 
 export const CreateTodoForm = (props: CreateTodoFormProps) => {
-    const { onSubmit } = props
+    const { onSubmit, initialData } = props
 
     const { control, handleSubmit, reset } = useForm<{
         todo: string
         description: string
         priority: TodoPriority
-    }>()
+    }>({
+        defaultValues: {
+            description: "",
+            todo: "",
+            priority: "low",
+        },
+    })
 
     const onSubmitForm = handleSubmit((data) => {
         onSubmit(data)
     })
+
+    useEffect(() => {
+        if (!initialData) return
+    }, [initialData])
 
     return (
         <form
@@ -30,12 +44,9 @@ export const CreateTodoForm = (props: CreateTodoFormProps) => {
             <Controller
                 name='todo'
                 control={control}
-                render={({ field: { onBlur, onChange, value, ref } }) => (
+                render={({ field }) => (
                     <TextField
-                        onBlur={onBlur}
-                        onChange={onChange}
-                        ref={ref}
-                        value={value}
+                        {...field}
                         variant='standard'
                         label='Задача'
                     />
@@ -44,12 +55,9 @@ export const CreateTodoForm = (props: CreateTodoFormProps) => {
             <Controller
                 name='description'
                 control={control}
-                render={({ field: { onBlur, onChange, value, ref } }) => (
+                render={({ field }) => (
                     <TextField
-                        ref={ref}
-                        onBlur={onBlur}
-                        onChange={onChange}
-                        value={value}
+                        {...field}
                         variant='standard'
                         label='Описание'
                     />
@@ -57,7 +65,11 @@ export const CreateTodoForm = (props: CreateTodoFormProps) => {
             />
             <div>
                 <h4>Приоритет</h4>
-                <PriorityRadioGroup />
+                <Controller
+                    name='priority'
+                    control={control}
+                    render={({ field }) => <PriorityRadioGroup {...field} />}
+                />
             </div>
             <Button type='submit'>Создать</Button>
         </form>

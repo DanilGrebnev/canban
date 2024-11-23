@@ -1,8 +1,13 @@
 import { FormControlLabel, Radio, RadioGroup } from "@mui/material"
 
-export const PriorityRadioGroup = () => {
+type IPriorityRadioGroup = Parameters<typeof RadioGroup>[0]
+
+export const PriorityRadioGroup = (props: IPriorityRadioGroup) => {
+    const { ...parameters } = props
+
     return (
         <RadioGroup
+            {...parameters}
             defaultValue='low'
             name='priority'
         >
