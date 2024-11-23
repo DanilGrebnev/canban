@@ -1,8 +1,8 @@
 import Dialog from "@mui/material/Dialog"
 import DialogTitle from "@mui/material/DialogTitle"
-import { DialogContent } from "@mui/material"
 import { ReactNode } from "react"
 import { Card } from "@/shared/ui/Card"
+import { cn } from "@/shared/lib/clsx"
 
 interface TChangeDashboardTaskInfoModal {
     open: boolean
@@ -29,6 +29,8 @@ export const Modal = (props: TChangeDashboardTaskInfoModal) => {
 
     return (
         <Dialog
+            PaperProps={{ className }}
+            aria-modal='true'
             maxWidth={maxWidth}
             fullScreen={fullScreen}
             fullWidth={fullWidth}

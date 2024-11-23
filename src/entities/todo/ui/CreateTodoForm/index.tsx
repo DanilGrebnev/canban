@@ -1,16 +1,13 @@
 import { useForm, Controller } from "react-hook-form"
 import { Button, TextField } from "@mui/material"
-import { ICreateTodoDTO } from "@/shared/api/todo"
-import { TodoPriority } from "@/shared/types/todos"
+import { ITodoForm, TodoPriority } from "@/shared/types/todos"
 import { PriorityRadioGroup } from "./PriorityRadioGroup"
 import s from "./create-todo-form.module.scss"
 import { useEffect } from "react"
 
-type IData = Omit<ICreateTodoDTO, "columnId">
-
 interface CreateTodoFormProps {
-    onSubmit: (data: IData) => void
-    initialData?: any
+    onSubmit: (data: ITodoForm) => void
+    initialData?: ITodoForm
 }
 
 export const CreateTodoForm = (props: CreateTodoFormProps) => {
@@ -34,6 +31,7 @@ export const CreateTodoForm = (props: CreateTodoFormProps) => {
 
     useEffect(() => {
         if (!initialData) return
+        reset(initialData)
     }, [initialData])
 
     return (

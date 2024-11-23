@@ -1,3 +1,5 @@
+import { ICreateTodoDTO } from "@/shared/api/todo"
+
 export interface TTodoItem {
     _id: string
     todo: string
@@ -11,6 +13,8 @@ export interface TTodoItem {
 }
 
 export type TodoPriority = "low" | "middle" | "high"
+
+export type ITodoForm = Omit<ICreateTodoDTO, "columnId">
 
 interface TTodoHistory {
     authorName: string

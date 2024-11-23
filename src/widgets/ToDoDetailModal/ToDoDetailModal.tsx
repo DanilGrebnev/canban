@@ -29,7 +29,7 @@ export const ToDoDetailModal = () => {
 
     return (
         <Modal
-            maxWidth='md'
+            maxWidth='lg'
             fullWidth={true}
             open={open}
             className={s.card}
