@@ -1,10 +1,11 @@
 import { useCreateCommentsMutation } from "@/shared/api/comments"
 import { useOnClickOutside } from "usehooks-ts"
-import { useEffect, useRef, useState } from "react"
+import { useRef, useState } from "react"
 import { useCommentsStore } from "@/shared/store/commentsStore"
 import { ICreateCommentsDTO } from "@/shared/api/comments/types"
 
 import { InputWithReply } from "@/entities/comments/ui/CommentsForm/InputWithReply"
+import { useFocus } from "@/entities/comments/model/context/FocusContext"
 
 interface CommentsFormProps {
     todoId: string
@@ -15,9 +16,11 @@ interface CommentsFormProps {
 
 export const CommentsForm = (props: CommentsFormProps) => {
     const { setCollapsed, authorName, todoId } = props
-    const [open, setOpen] = useState(false)
+    const [open, setOpen] = useState(true)
 
     const { mutate } = useCreateCommentsMutation()
+
+    const { focusRef } = useFocus()
 
     const ref = useRef<HTMLFormElement | null>(null)
 
@@ -26,6 +29,7 @@ export const CommentsForm = (props: CommentsFormProps) => {
     const onSubmit = (text: string) => {
         let reply = null
         if (replyInfo) {
+            console.log("сработало", replyInfo)
             const { authorName, authorId } = replyInfo
             reply = { authorName, authorId }
         }
@@ -36,6 +40,7 @@ export const CommentsForm = (props: CommentsFormProps) => {
             todoId,
             replyInfo: reply,
         }
+        console.log("data", data)
         mutate(data)
     }
 
@@ -51,6 +56,7 @@ export const CommentsForm = (props: CommentsFormProps) => {
 
     return (
         <InputWithReply
+            focusRef={focusRef}
             open={open}
             onClick={onClick}
             onBlur={onBlur}

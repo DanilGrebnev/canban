@@ -1,7 +1,7 @@
 import s from "./inputs-with-reply.module.scss"
 import { useForm, Controller } from "react-hook-form"
 import { SendBtn } from "./SendBtn"
-import { forwardRef, useEffect } from "react"
+import { forwardRef, RefObject, useEffect } from "react"
 import { cn } from "@/shared/lib/clsx"
 import { CustomTextField } from "../MUICustomComponent"
 import { ReplyInfo } from "./ReplyInfo"
@@ -14,6 +14,7 @@ interface InputWithReplyProps {
     replyInfo?: IReplyData | null
     className?: string
     open?: boolean
+    focusRef?: RefObject<HTMLInputElement>
     onClick?: () => void
     onFocus?: () => void
     onBlur?: () => void
@@ -78,6 +79,7 @@ export const InputWithReply = forwardRef<HTMLDivElement, InputWithReplyProps>(
                     render={({ field, formState: { errors } }) => (
                         <CustomTextField
                             {...field}
+                            inputRef={p.focusRef}
                             error={!!errors.text}
                             helperText={p.open && errors.text?.message}
                             multiline={true}

@@ -9,6 +9,7 @@ import { CommentHeader } from "./CommentHeader"
 import { IconButton } from "@/shared/ui/IconButton"
 import { DeleteCommentBtn } from "./DeleteCommentBtn"
 import Typography from "@mui/material/Typography"
+import { useFocus } from "@/entities/comments/model/context/FocusContext"
 
 interface CommentsProps extends ICommentsDTO {
     owner: boolean
@@ -25,7 +26,7 @@ export const CommentItem: FC<CommentsProps> = memo((props) => {
         text,
         createdDate,
     } = props
-
+    const { handleFocus } = useFocus()
     const setReplyData = useSetReplyData()
 
     return (
@@ -39,6 +40,7 @@ export const CommentItem: FC<CommentsProps> = memo((props) => {
                             <IconButton
                                 iconVariant='pencil'
                                 className='rounded-[5px]'
+                                onClick={handleFocus}
                             />
                             <DeleteCommentBtn
                                 todoId={todoId}
@@ -54,13 +56,14 @@ export const CommentItem: FC<CommentsProps> = memo((props) => {
             <footer className={s.footer}>
                 <ReplyBtn
                     owner={owner}
-                    onClick={() =>
+                    onClick={() => {
                         setReplyData({
                             authorId,
                             authorName,
                             replyText: text,
                         })
-                    }
+                        handleFocus()
+                    }}
                 />
                 <CreatedTime
                     className={s.time}
