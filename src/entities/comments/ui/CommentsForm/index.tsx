@@ -1,21 +1,12 @@
-import { CustomIconButton } from "@/shared/ui/CustomIconButton"
-import { CustomTextField } from "./MUICustomComponent"
-import SendIcon from "@mui/icons-material/Send"
 import { useCreateCommentsMutation } from "@/shared/api/comments"
-import { useForm } from "react-hook-form"
 import { useOnClickOutside } from "usehooks-ts"
 import { useEffect, useRef, useState } from "react"
 import { useCommentsStore } from "@/shared/store/commentsStore"
 import { ICreateCommentsDTO } from "@/shared/api/comments/types"
-import s from "./comments-form.module.scss"
-import { ReplyInfo } from "./ReplyInfo"
-import { cn } from "@/shared/lib/clsx"
+
+import { InputWithReply } from "@/entities/comments/ui/CommentsForm/InputWithReply"
 
 interface CommentsFormProps {
-    replyData?: {
-        author: string
-        text: string
-    }
     todoId: string
     authorName: string
     setCollapsed: (value: boolean) => void
@@ -23,28 +14,20 @@ interface CommentsFormProps {
 }
 
 export const CommentsForm = (props: CommentsFormProps) => {
-    const { collapsed, setCollapsed, authorName, todoId } = props
-
-    const {
-        register,
-        handleSubmit,
-        formState: { errors },
-    } = useForm<{
-        text: string
-    }>()
+    const { setCollapsed, authorName, todoId } = props
+    const [open, setOpen] = useState(false)
 
     const { mutate } = useCreateCommentsMutation()
 
     const ref = useRef<HTMLFormElement | null>(null)
 
-    const setReplyData = useCommentsStore((s) => s.setReplyData)
     const replyInfo = useCommentsStore((s) => s.replyData)
 
-    const onSubmit = handleSubmit(({ text }) => {
+    const onSubmit = (text: string) => {
         let reply = null
         if (replyInfo) {
-            const { replyText, ...replyData } = replyInfo
-            reply = replyData
+            const { authorName, authorId } = replyInfo
+            reply = { authorName, authorId }
         }
 
         const data: ICreateCommentsDTO = {
@@ -54,50 +37,25 @@ export const CommentsForm = (props: CommentsFormProps) => {
             replyInfo: reply,
         }
         mutate(data)
-    })
+    }
 
     useOnClickOutside(ref, () => setCollapsed(false))
 
-    useEffect(() => {
-        return () => setReplyData(null)
-    }, [])
+    const onClick = () => {
+        setOpen(true)
+    }
 
-    useEffect(() => {
-        if (replyInfo) {
-            ref.current?.focus()
-        }
-    }, [setReplyData])
+    const onBlur = () => {
+        setOpen(false)
+    }
 
     return (
-        <form
-            ref={ref}
-            className={cn(s.form, { [s.open]: collapsed })}
-            onClick={() => setCollapsed(true)}
-            onSubmit={onSubmit}
-        >
-            {replyInfo && (
-                <ReplyInfo
-                    onClick={() => setReplyData(null)}
-                    authorName={replyInfo.authorName}
-                    replyText={replyInfo.replyText}
-                />
-            )}
-
-            <CustomTextField
-                {...register("text")}
-                multiline
-                placeholder='Написать комментарий...'
-            />
-
-            <div className={s["send-button"]}>
-                <CustomIconButton
-                    centerRipple={false}
-                    color='info'
-                    type='submit'
-                >
-                    <SendIcon />
-                </CustomIconButton>
-            </div>
-        </form>
+        <InputWithReply
+            open={open}
+            onClick={onClick}
+            onBlur={onBlur}
+            replyInfo={replyInfo}
+            onSubmit={({ text }) => onSubmit(text)}
+        />
     )
 }

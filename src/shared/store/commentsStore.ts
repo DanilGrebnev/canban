@@ -2,7 +2,7 @@ import { create } from "zustand"
 import { immer } from "zustand/middleware/immer"
 import { ICommentsDTO } from "@/shared/api/comments"
 
-type IReplyData = {
+export type IReplyData = {
     authorName: string
     authorId: string
     replyText: string

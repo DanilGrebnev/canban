@@ -6,6 +6,7 @@ interface ReplyInfoProps {
         authorId: string
         date: Date
     } | null
+    onClick?: () => void
 }
 
 export const ReplyInfo = (props: ReplyInfoProps) => {
