@@ -4,7 +4,7 @@ import { SendBtn } from "./SendBtn"
 import { forwardRef, useEffect } from "react"
 import { cn } from "@/shared/lib/clsx"
 import { CustomTextField } from "../MUICustomComponent"
-import { ReplyInfo } from "../ReplyInfo"
+import { ReplyInfo } from "./ReplyInfo"
 import { IReplyData, useSetReplyData } from "@/shared/store/commentsStore"
 import { inputRules } from "./inputRules"
 
