@@ -13,11 +13,13 @@
   @apply w-full;
 }
 
+.hidden {
+  display: none;
+}
+
 .textarea {
   @apply
   w-full;
-
-
 }
 
 .send-button {

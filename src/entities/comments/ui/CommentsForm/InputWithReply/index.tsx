@@ -43,6 +43,7 @@ export const InputWithReply = forwardRef<HTMLDivElement, InputWithReplyProps>(
             reset(p.initialData)
         }, [p.initialData])
 
+        /* Reset inputs errors and field values */
         useEffect(() => {
             if (!p.open) {
                 clearErrors()
@@ -50,7 +51,7 @@ export const InputWithReply = forwardRef<HTMLDivElement, InputWithReplyProps>(
             }
         }, [p.open])
 
-        /* Clear reply date after unmount */
+        /* Clear reply data after unmount */
         useEffect(() => {
             return () => setReplyData(null)
         }, [])
@@ -87,7 +88,7 @@ export const InputWithReply = forwardRef<HTMLDivElement, InputWithReplyProps>(
                 />
                 <SendBtn
                     disabled={!isDirty || !!errors.text}
-                    className={cn(s["send-button"], { hidden: !p.open })}
+                    className={cn(s["send-button"], { [s.hidden]: !p.open })}
                     onClick={handleSubmit(p.onSubmit)}
                 />
             </div>
