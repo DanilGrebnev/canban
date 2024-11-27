@@ -16,6 +16,7 @@ export const SendBtn = (props: SendBtnProps) => {
             className={s["send-button"]}
             centerRipple={false}
             color='info'
+            onBlur={(e) => e.stopPropagation()}
             type='submit'
             {...props}
         >

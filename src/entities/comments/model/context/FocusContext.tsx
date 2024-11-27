@@ -8,28 +8,28 @@ import {
 } from "react"
 
 interface FocusContextValue {
-    focusRef: RefObject<HTMLInputElement>
+    inputRef: RefObject<HTMLInputElement>
     handleFocus: () => void
 }
 
 const FocusContext = createContext<FocusContextValue | null>(null)
 
 export const FocusProvider: FC<{ children: ReactNode }> = ({ children }) => {
-    const focusRef = useRef<HTMLInputElement>(null)
+    const inputRef = useRef<HTMLInputElement>(null)
 
     const handleFocus = () => {
-        if (focusRef.current) {
+        if (inputRef.current) {
             const clickEvent = new MouseEvent("click", {
                 bubbles: true,
                 cancelable: true,
             })
 
-            focusRef.current.dispatchEvent(clickEvent)
-            focusRef.current.focus()
+            inputRef.current.dispatchEvent(clickEvent)
+            inputRef.current.focus()
         }
     }
     return (
-        <FocusContext.Provider value={{ focusRef, handleFocus }}>
+        <FocusContext.Provider value={{ inputRef, handleFocus }}>
             {children}
         </FocusContext.Provider>
     )

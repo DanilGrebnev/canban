@@ -1,11 +1,11 @@
 import { useCreateCommentsMutation } from "@/shared/api/comments"
 import { useOnClickOutside } from "usehooks-ts"
 import { useRef, useState } from "react"
-import { useCommentsStore } from "@/shared/store/commentsStore"
+import {
+    useCommentsStore,
+} from "@/shared/store/commentsStore"
 import { ICreateCommentsDTO } from "@/shared/api/comments/types"
-
-import { InputWithReply } from "@/entities/comments/ui/CommentsForm/InputWithReply"
-import { useFocus } from "@/entities/comments/model/context/FocusContext"
+import { InputWithReply } from "./InputWithReply"
 
 interface CommentsFormProps {
     todoId: string
@@ -16,20 +16,17 @@ interface CommentsFormProps {
 
 export const CommentsForm = (props: CommentsFormProps) => {
     const { setCollapsed, authorName, todoId } = props
-    const [open, setOpen] = useState(true)
+    const [open, setOpen] = useState(false)
 
     const { mutate } = useCreateCommentsMutation()
+    const ref = useRef<HTMLDivElement | null>(null)
+    const replyInfo = useCommentsStore((s) => s.replyData);
 
-    const { focusRef } = useFocus()
-
-    const ref = useRef<HTMLFormElement | null>(null)
-
-    const replyInfo = useCommentsStore((s) => s.replyData)
+    // const commentsDetail = useGetCommentsDetailSelector()
 
     const onSubmit = (text: string) => {
         let reply = null
         if (replyInfo) {
-            console.log("сработало", replyInfo)
             const { authorName, authorId } = replyInfo
             reply = { authorName, authorId }
         }
@@ -39,27 +36,25 @@ export const CommentsForm = (props: CommentsFormProps) => {
             authorName,
             todoId,
             replyInfo: reply,
-        }
-        console.log("data", data)
+        };
+
         mutate(data)
     }
-
-    useOnClickOutside(ref, () => setCollapsed(false))
-
     const onClick = () => {
         setOpen(true)
     }
 
-    const onBlur = () => {
+    useOnClickOutside(ref, () => {
+        setCollapsed(false)
         setOpen(false)
-    }
+    })
 
     return (
         <InputWithReply
-            focusRef={focusRef}
+            ref={ref}
+            // initialData={{ text: commentsDetail?.text || "" }}
             open={open}
             onClick={onClick}
-            onBlur={onBlur}
             replyInfo={replyInfo}
             onSubmit={({ text }) => onSubmit(text)}
         />

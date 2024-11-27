@@ -4,7 +4,7 @@ import { Modal } from "@/shared/ui/Modal"
 import { useGetTodoDetailQuery } from "@/shared/api/todo"
 import { useState } from "react"
 import s from "./todo-detail.module.scss"
-import { ToDoInfo } from "./ToDoInfo"
+import { ToDoInfo } from "./ui/TodoInfo/ToDoInfo"
 import { CommentsForm, CommentsList } from "@/entities/comments"
 import { useGetProfileQuery } from "@/shared/api/users"
 import {

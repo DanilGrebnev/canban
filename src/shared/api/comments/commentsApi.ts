@@ -1,5 +1,10 @@
 import { api } from "../api-instance"
-import { ICommentsDTO, ICreateCommentsDTO, IGetCommentsDTO } from "./types"
+import {
+    IChangeCommentsDTO,
+    ICommentsDTO,
+    ICreateCommentsDTO,
+    IGetCommentsDTO,
+} from "./types"
 
 const commentsApi = api.extend(({ prefixUrl }) => ({
     prefixUrl: prefixUrl + "/comments",
@@ -21,5 +26,10 @@ export const CommentsApi = {
         return commentsApi
             .delete(commentsId, { credentials: "include" })
             .json<ICommentsDTO>()
+    },
+    changeComments: (commentId: string, commentText: { text: string }) => {
+        return commentsApi
+            .patch(commentId, { json: commentText, credentials: "include" })
+            .json<IChangeCommentsDTO>()
     },
 }

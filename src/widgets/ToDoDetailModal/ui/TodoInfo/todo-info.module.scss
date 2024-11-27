@@ -1,0 +1,11 @@
+.wrapper {
+  @apply flex flex-row items-center gap-[--gap];
+}
+
+.participants-block {
+  @apply grow flex flex-row items-center justify-end gap-[--gap];
+}
+
+.open {
+  transform: rotate(180deg);
+}

@@ -1,6 +1,5 @@
 import { create } from "zustand"
 import { immer } from "zustand/middleware/immer"
-import { ICommentsDTO } from "@/shared/api/comments"
 
 export type IReplyData = {
     authorName: string
@@ -8,11 +7,17 @@ export type IReplyData = {
     replyText: string
 }
 
+type CommentsDetail = {
+    text: string
+    todoId: string
+    commentId: string
+}
+
 type CommentsStore = {
     replyData: IReplyData | null
-    commentsDetail: ICommentsDTO | null
+    commentsDetail: CommentsDetail | null
     setReplyData: (replyData: IReplyData | null) => void
-    setCommentsDetail: (commentsDetail: ICommentsDTO | null) => void
+    setCommentsDetail: (commentsDetail: CommentsDetail | null) => void
 }
 
 export const useCommentsStore = create<CommentsStore>()(
@@ -32,10 +37,8 @@ export const useCommentsStore = create<CommentsStore>()(
     })),
 )
 
-export const useSetCommentsDetail = () =>
+export const useSetCommentsDetailSelector = () =>
     useCommentsStore((s) => s.setCommentsDetail)
-
 export const useSetReplyData = () => useCommentsStore((s) => s.setReplyData)
-
-export const useGetCommentsDetail = () =>
+export const useGetCommentsDetailSelector = () =>
     useCommentsStore((s) => s.commentsDetail)

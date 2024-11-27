@@ -1,7 +1,11 @@
 import { FC, memo } from "react"
-import { useSetReplyData } from "@/shared/store/commentsStore"
+import {
+    useSetCommentsDetailSelector,
+    useSetReplyData,
+} from "@/shared/store/commentsStore"
 import s from "./comments-item.module.scss"
 import { ICommentsDTO } from "@/shared/api/comments"
+import { EditCommentBtn } from "./EditCommentBtn"
 import { ReplyBtn } from "./ReplyBtn"
 import { ReplyInfo } from "./ReplyInfo"
 import { CreatedTime } from "./CreatedTime"
@@ -10,6 +14,7 @@ import { IconButton } from "@/shared/ui/IconButton"
 import { DeleteCommentBtn } from "./DeleteCommentBtn"
 import Typography from "@mui/material/Typography"
 import { useFocus } from "@/entities/comments/model/context/FocusContext"
+import { EditNote } from "@mui/icons-material"
 
 interface CommentsProps extends ICommentsDTO {
     owner: boolean
@@ -28,6 +33,7 @@ export const CommentItem: FC<CommentsProps> = memo((props) => {
     } = props
     const { handleFocus } = useFocus()
     const setReplyData = useSetReplyData()
+    const setCommentsDetail = useSetCommentsDetailSelector()
 
     return (
         <li className={s.container}>
@@ -37,10 +43,15 @@ export const CommentItem: FC<CommentsProps> = memo((props) => {
                 actionButtons={
                     owner && (
                         <>
-                            <IconButton
-                                iconVariant='pencil'
-                                className='rounded-[5px]'
-                                onClick={handleFocus}
+                            <EditCommentBtn
+                                onClick={() => {
+                                    setCommentsDetail({
+                                        text,
+                                        todoId,
+                                        commentId: _id,
+                                    })
+                                    handleFocus()
+                                }}
                             />
                             <DeleteCommentBtn
                                 todoId={todoId}
