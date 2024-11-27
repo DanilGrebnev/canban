@@ -54,6 +54,7 @@ export const InputWithReply = forwardRef<HTMLDivElement, InputWithReplyProps>(
         const setCommentsDetail = useSetCommentsDetailSelector()
 
         const commentsDetail = useGetCommentsDetailSelector() // прокидывание через пропсы вызывало срабатывание useEffect при каждом рендере. Из-за чего был рассинхрон
+        const { commentId, todoId, text } = commentsDetail ?? {}
         const discardChange = () => {
             setCommentsDetail(null)
             resetField("text")
@@ -62,7 +63,7 @@ export const InputWithReply = forwardRef<HTMLDivElement, InputWithReplyProps>(
         /* Set initial data */
         useEffect(() => {
             if (!commentsDetail?.text) return
-            setValue("text", commentsDetail.text, {
+            setValue("text", text!, {
                 // добавил принудительную валидацию при обновлении value
                 // принципиальной разницы в reset и setValue в нашем случае нет. Но семантически правильно будет использовать setValue. Т.к. поле одно
                 shouldDirty: true,
@@ -130,9 +131,9 @@ export const InputWithReply = forwardRef<HTMLDivElement, InputWithReplyProps>(
                     onClick={() => {
                         if (commentsDetail) {
                             mutate({
-                                commentsId: commentsDetail.commentId,
+                                commentsId: commentId!,
                                 commentText: { text: getValues("text") },
-                                todoId: commentsDetail.todoId,
+                                todoId: todoId!,
                             })
                         } else {
                             handleSubmit(p.onSubmit)()
