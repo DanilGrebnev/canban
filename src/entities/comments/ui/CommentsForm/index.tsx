@@ -1,10 +1,11 @@
 import { useCreateCommentsMutation } from "@/shared/api/comments"
 import { useOnClickOutside } from "usehooks-ts"
-import { useEffect, useRef, useState } from "react"
-import { useCommentsStore } from "@/shared/store/commentsStore"
+import { useRef, useState } from "react"
+import {
+    useCommentsStore,
+} from "@/shared/store/commentsStore"
 import { ICreateCommentsDTO } from "@/shared/api/comments/types"
-
-import { InputWithReply } from "@/entities/comments/ui/CommentsForm/InputWithReply"
+import { InputWithReply } from "./InputWithReply"
 
 interface CommentsFormProps {
     todoId: string
@@ -18,10 +19,10 @@ export const CommentsForm = (props: CommentsFormProps) => {
     const [open, setOpen] = useState(false)
 
     const { mutate } = useCreateCommentsMutation()
+    const ref = useRef<HTMLDivElement | null>(null)
+    const replyInfo = useCommentsStore((s) => s.replyData);
 
-    const ref = useRef<HTMLFormElement | null>(null)
-
-    const replyInfo = useCommentsStore((s) => s.replyData)
+    // const commentsDetail = useGetCommentsDetailSelector()
 
     const onSubmit = (text: string) => {
         let reply = null
@@ -35,25 +36,25 @@ export const CommentsForm = (props: CommentsFormProps) => {
             authorName,
             todoId,
             replyInfo: reply,
-        }
+        };
+
         mutate(data)
     }
-
-    useOnClickOutside(ref, () => setCollapsed(false))
-
     const onClick = () => {
         setOpen(true)
     }
 
-    const onBlur = () => {
+    useOnClickOutside(ref, () => {
+        setCollapsed(false)
         setOpen(false)
-    }
+    })
 
     return (
         <InputWithReply
+            ref={ref}
+            // initialData={{ text: commentsDetail?.text || "" }}
             open={open}
             onClick={onClick}
-            onBlur={onBlur}
             replyInfo={replyInfo}
             onSubmit={({ text }) => onSubmit(text)}
         />

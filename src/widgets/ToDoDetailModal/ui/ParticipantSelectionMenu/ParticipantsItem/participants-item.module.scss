@@ -1,0 +1,15 @@
+.menu-item {
+  @apply
+  flex
+  justify-between
+  items-center;
+}
+
+.check-icon {
+  transition: .3s;
+  color: transparent;
+
+  &.selected {
+    color: green;
+  }
+}

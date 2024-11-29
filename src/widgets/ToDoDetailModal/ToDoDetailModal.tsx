@@ -4,7 +4,7 @@ import { Modal } from "@/shared/ui/Modal"
 import { useGetTodoDetailQuery } from "@/shared/api/todo"
 import { useState } from "react"
 import s from "./todo-detail.module.scss"
-import { ToDoInfo } from "./ToDoInfo"
+import { ToDoInfo } from "./ui/TodoInfo/ToDoInfo"
 import { CommentsForm, CommentsList } from "@/entities/comments"
 import { useGetProfileQuery } from "@/shared/api/users"
 import {
@@ -12,6 +12,7 @@ import {
     useGetIsOpenTodoDetailModal,
     useGetTodoId,
 } from "@/shared/store/todoStore"
+import { FocusProvider } from "@/entities/comments/model/context/FocusContext"
 
 export const ToDoDetailModal = () => {
     const [openComments, setCommentOpen] = useState(false)
@@ -49,18 +50,20 @@ export const ToDoDetailModal = () => {
                     todo={todoData}
                 />
             </div>
-            <CommentsList
-                open={openComments}
-                todoId={todoId}
-            />
-            <CommentsForm
-                todoId={todoId}
-                collapsed={collapsedCommentForm}
-                setCollapsed={(value: boolean) =>
-                    setCollapsedCommentForm(value)
-                }
-                authorName={profile?.name || ""}
-            />
+            <FocusProvider>
+                <CommentsList
+                    open={openComments}
+                    todoId={todoId}
+                />
+                <CommentsForm
+                    todoId={todoId}
+                    collapsed={collapsedCommentForm}
+                    setCollapsed={(value: boolean) =>
+                        setCollapsedCommentForm(value)
+                    }
+                    authorName={profile?.name || ""}
+                />
+            </FocusProvider>
         </Modal>
     )
 }

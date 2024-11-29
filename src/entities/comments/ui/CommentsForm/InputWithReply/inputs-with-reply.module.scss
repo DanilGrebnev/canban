@@ -1,7 +1,7 @@
 .wrapper {
   @apply
     flex
-    flex-col
+    flex-row
     relative
     rounded-[5px]
     duration-300
@@ -29,3 +29,11 @@
     bottom-0
   ;
 }
+//.cancel-button {
+//  @apply
+//    mt-1
+//    absolute
+//    right-0
+//    bottom-1/2
+//  ;
+//}

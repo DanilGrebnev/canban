@@ -1,9 +1,13 @@
 import Typography from "@mui/material/Typography"
 import { Divider, Stack } from "@mui/material"
-import IconButton from "@mui/material/IconButton"
-import { ExpandMore } from "@mui/icons-material"
+import { IconButton } from "@/shared/ui/IconButton"
 import { TTodoItem } from "@/shared/types/todos"
 import { format } from "@formkit/tempo"
+import { AddTaskPerformerButton } from "../AddTaskPerformerButton"
+import { useRef, useState } from "react"
+import { ParticipantSelectionMenu } from "../ParticipantSelectionMenu"
+import s from "./todo-info.module.scss"
+import { cn } from "@/shared/lib/clsx"
 
 interface ToDoFooterProps {
     todo?: TTodoItem
@@ -13,13 +17,11 @@ interface ToDoFooterProps {
 
 export const ToDoInfo = (props: ToDoFooterProps) => {
     const { todo, openComment, setOpenComment } = props
+    const [open, setOpen] = useState(false)
+    const anchorRef = useRef<HTMLButtonElement>(null)
 
     return (
-        <Stack
-            direction='row'
-            spacing={2}
-            alignItems='center'
-        >
+        <div className={s.wrapper}>
             <Typography
                 variant='caption'
                 sx={{ fontStyle: "italic" }}
@@ -52,17 +54,33 @@ export const ToDoInfo = (props: ToDoFooterProps) => {
                 {`Комментариев: ${todo?.commentsAmount}`}
             </Typography>
             <IconButton
+                iconVariant='expandMore'
+                className={cn({ [s.open]: openComment })}
                 size='small'
-                sx={{ ml: "auto" }}
+                fontSize='small'
                 onClick={() => setOpenComment()}
-            >
-                <ExpandMore
-                    sx={{
-                        transform: openComment ? "rotate(180deg)" : "",
-                    }}
-                    fontSize='small'
+            />
+            <div className={s["participants-block"]}>
+                <Typography
+                    variant='caption'
+                    color='textSecondary'
+                    sx={{ fontStyle: "italic" }}
+                >
+                    {`Участников: 2`}
+                </Typography>
+                <AddTaskPerformerButton
+                    ref={anchorRef}
+                    onClick={() => setOpen(true)}
+                    open={open}
+                    id='add-task-performer'
                 />
-            </IconButton>
-        </Stack>
+                <ParticipantSelectionMenu
+                    anchorEl={anchorRef.current}
+                    open={open}
+                    handleClose={() => setOpen(false)}
+                    id='add-task-performer'
+                />
+            </div>
+        </div>
     )
 }
