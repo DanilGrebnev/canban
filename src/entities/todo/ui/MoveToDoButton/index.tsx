@@ -15,10 +15,11 @@ interface MoveToDoButtonProps {
 }
 
 export const MoveToDoButton = (props: MoveToDoButtonProps) => {
+    const { todoId, dashboardId, columnId } = props
+
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
     const open = Boolean(anchorEl)
 
-    const { todoId, dashboardId, columnId } = props
     const { data: columns } = useGetColumnsListQuery(dashboardId || "")
 
     const { mutate } = useMoveTodoToAnotherColumnMutation()
@@ -56,7 +57,11 @@ export const MoveToDoButton = (props: MoveToDoButtonProps) => {
                         className={s["menu-item"]}
                         onClick={() => {
                             handleClose?.()
-                            mutate({ columnId: column._id, todoId })
+                            mutate({
+                                fromColumnId: columnId,
+                                columnId: column._id,
+                                todoId,
+                            })
                         }}
                     >
                         Переместить в "{column.columnName}"

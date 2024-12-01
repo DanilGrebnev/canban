@@ -2,7 +2,7 @@
 
 import { Card } from "@/shared/ui/Card"
 import s from "./todo-card.module.scss"
-
+import { type DragEvent } from "react"
 import {
     DeleteToDoButton,
     ChangeToDoButton,
@@ -41,9 +41,17 @@ export const TodoCard = (props: TDashboardItem) => {
         high: "Высокий",
     }
 
+    function onDragStart(e: DragEvent<HTMLDivElement>) {
+        e.dataTransfer.effectAllowed = "move"
+        e.dataTransfer.setData("todoId", todoId)
+        e.dataTransfer.setData("columnId", columnId)
+    }
+
     return (
         <Card
+            onDragStart={onDragStart}
             variant='outlined'
+            draggable={true}
             className={s["todo-item"]}
             onClick={() => {
                 setOpenModal(true)

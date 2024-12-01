@@ -3,7 +3,14 @@
 import { Card } from "@/shared/ui/Card"
 import { TChildren } from "@/shared/types/Children"
 import s from "./column.module.scss"
-import { ReactNode, useEffect, useRef, useState } from "react"
+import {
+    type ReactNode,
+    type DragEvent,
+    useEffect,
+    useRef,
+    useState,
+} from "react"
+import { useMoveTodoToAnotherColumnMutation } from "@/shared/api/todo"
 
 export interface TColumn extends TChildren {
     title: string | number
@@ -13,7 +20,8 @@ export interface TColumn extends TChildren {
 }
 
 export const Column = (props: TColumn) => {
-    const { title, children, buttonsWidgets } = props
+    const { title, children, buttonsWidgets, columnId } = props
+    const { mutate } = useMoveTodoToAnotherColumnMutation()
 
     const [height, setHeight] = useState<number | null>(null)
     const ref = useRef<HTMLDivElement | null>(null)
@@ -23,8 +31,28 @@ export const Column = (props: TColumn) => {
         setHeight(ref.current?.clientHeight)
     }, [])
 
+    const onDrop = (e: DragEvent<HTMLDivElement>) => {
+        e.preventDefault()
+        console.log("on drop")
+        const dragTodoId = e.dataTransfer.getData("todoId")
+        const dragColumnId = e.dataTransfer.getData("columnId")
+
+        if (columnId === dragColumnId) {
+            return console.log("Перетаскивание в исходную колонку")
+        }
+
+        mutate({
+            fromColumnId: dragColumnId,
+            columnId,
+            todoId: dragTodoId,
+        })
+    }
+
     return (
         <Card
+            onDrop={onDrop}
+            onDragOver={(e) => e.preventDefault()}
+            onDragEnter={(e) => e.preventDefault()}
             className={s.column}
             variant='outlined'
         >
