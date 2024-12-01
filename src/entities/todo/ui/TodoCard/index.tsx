@@ -2,7 +2,7 @@
 
 import { Card } from "@/shared/ui/Card"
 import s from "./todo-card.module.scss"
-import { type DragEvent } from "react"
+import { type DragEvent, memo } from "react"
 import {
     DeleteToDoButton,
     ChangeToDoButton,
@@ -14,6 +14,7 @@ import { cn } from "@/shared/lib/clsx"
 import { format } from "@formkit/tempo"
 import {
     setIsOpenTodoDetailModal,
+    useSetIdColumnUnderDraggedElement,
     useSetTodoId,
 } from "@/shared/store/todoStore"
 
@@ -22,7 +23,7 @@ interface TDashboardItem extends Omit<TTodoItem, "_id"> {
     dashboardId: string
 }
 
-export const TodoCard = (props: TDashboardItem) => {
+export const TodoCard = memo((props: TDashboardItem) => {
     const {
         todoId,
         creationDate,
@@ -33,7 +34,8 @@ export const TodoCard = (props: TDashboardItem) => {
         columnId,
     } = props
     const setOpenModal = setIsOpenTodoDetailModal()
-    const setTodoId = useSetTodoId()
+    const setTodoIdInStore = useSetTodoId()
+    const setColumnIdUnderDraggedElement = useSetIdColumnUnderDraggedElement()
 
     const priorityValue = {
         low: "Низкий",
@@ -41,21 +43,27 @@ export const TodoCard = (props: TDashboardItem) => {
         high: "Высокий",
     }
 
-    function onDragStart(e: DragEvent<HTMLDivElement>) {
+    const onDragStart = (e: DragEvent<HTMLDivElement>) => {
         e.dataTransfer.effectAllowed = "move"
         e.dataTransfer.setData("todoId", todoId)
         e.dataTransfer.setData("columnId", columnId)
     }
 
+    const onDragEnd = () => {
+        setColumnIdUnderDraggedElement(null)
+    }
+
     return (
         <Card
             onDragStart={onDragStart}
+            onDragEnd={onDragEnd}
+            onDrag={(e) => e.preventDefault()}
             variant='outlined'
             draggable={true}
             className={s["todo-item"]}
             onClick={() => {
                 setOpenModal(true)
-                setTodoId(todoId)
+                setTodoIdInStore(todoId)
             }}
         >
             <Tooltip title={`Приоритет: ${priorityValue[priority]}`}>
@@ -86,4 +94,4 @@ export const TodoCard = (props: TDashboardItem) => {
             </div>
         </Card>
     )
-}
+})

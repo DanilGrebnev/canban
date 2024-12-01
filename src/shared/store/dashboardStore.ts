@@ -6,7 +6,7 @@ interface DashboardState {
     dashboardId: string | null
     dashboardName: string | null
     isOwner: boolean
-    setDashboardName: (dahboardName: string | null) => any
+    setDashboardName: (dashboardName: string | null) => any
     setDashboardId: (dashboardId: string | null) => any
     setIsOwner: (userProfile: IProfile) => any
 }

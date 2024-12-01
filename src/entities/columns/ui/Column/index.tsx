@@ -11,6 +11,11 @@ import {
     useState,
 } from "react"
 import { useMoveTodoToAnotherColumnMutation } from "@/shared/api/todo"
+import { cn } from "@/shared/lib/clsx"
+import {
+    useGetIdColumnUnderDraggedElement,
+    useSetIdColumnUnderDraggedElement,
+} from "@/shared/store/todoStore"
 
 export interface TColumn extends TChildren {
     title: string | number
@@ -22,9 +27,10 @@ export interface TColumn extends TChildren {
 export const Column = (props: TColumn) => {
     const { title, children, buttonsWidgets, columnId } = props
     const { mutate } = useMoveTodoToAnotherColumnMutation()
-
     const [height, setHeight] = useState<number | null>(null)
     const ref = useRef<HTMLDivElement | null>(null)
+    const draggableColumnId = useGetIdColumnUnderDraggedElement()
+    const setColumnIdUnderDraggedElement = useSetIdColumnUnderDraggedElement()
 
     useEffect(() => {
         if (!ref.current) return
@@ -33,7 +39,6 @@ export const Column = (props: TColumn) => {
 
     const onDrop = (e: DragEvent<HTMLDivElement>) => {
         e.preventDefault()
-        console.log("on drop")
         const dragTodoId = e.dataTransfer.getData("todoId")
         const dragColumnId = e.dataTransfer.getData("columnId")
 
@@ -50,10 +55,16 @@ export const Column = (props: TColumn) => {
 
     return (
         <Card
+            className={cn(s.column, {
+                [s.select]: draggableColumnId === columnId,
+            })}
             onDrop={onDrop}
+            onDrag={(e) => e.preventDefault()}
             onDragOver={(e) => e.preventDefault()}
-            onDragEnter={(e) => e.preventDefault()}
-            className={s.column}
+            onDragEnter={(e) => {
+                e.preventDefault()
+                setColumnIdUnderDraggedElement(columnId)
+            }}
             variant='outlined'
         >
             <header className={s["column-header"]}>
