@@ -21,6 +21,7 @@ export const DashboardMenu = (props: DashboardMenuProps) => {
     const handleClick = (event: any) => {
         setAnchorEl(event.currentTarget)
     }
+
     const handleClose = () => {
         setAnchorEl(null)
     }
@@ -59,10 +60,15 @@ export const DashboardMenu = (props: DashboardMenuProps) => {
     )
 }
 
-function MenuItem(props: { label: string; children: ReactNode }) {
-    const { label, children } = props
+function MenuItem(props: {
+    label: string
+    children: ReactNode
+    onClick?: () => void
+}) {
+    const { label, children, onClick } = props
     return (
         <MUIMenuItem
+            onClick={onClick}
             component='label'
             className={"flex gap-[--gap]"}
         >
